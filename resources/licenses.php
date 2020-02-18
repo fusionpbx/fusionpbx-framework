@@ -21,7 +21,7 @@
 
 	The Initial Developer of the Original Code is
 	Mark J Crane <markjcrane@fusionpbx.com>
-	Portions created by the Initial Developer are Copyright (C) 2008-2019
+	Portions created by the Initial Developer are Copyright (C) 2008-2020
 	the Initial Developer. All Rights Reserved.
 
 	Contributor(s):
@@ -29,12 +29,6 @@
 
 //-----------------------------------------------------------------------------------
 3rd Party Licenses
-//-----------------------------------------------------------------------------------
-
-FreeSWITCH
-http://www.freeswitch.org/
-License: MPL (Mozilla Public License)
-
 //-----------------------------------------------------------------------------------
 
 PHPMailer
