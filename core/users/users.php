@@ -17,7 +17,7 @@
 
 	The Initial Developer of the Original Code is
 	Mark J Crane <markjcrane@fusionpbx.com>
-	Portions created by the Initial Developer are Copyright (C) 2008 - 2019
+	Portions created by the Initial Developer are Copyright (C) 2008 - 2020
 	the Initial Developer. All Rights Reserved.
 
 	Contributor(s):
@@ -222,9 +222,11 @@
 	}
 	echo th_order_by('username', $text['label-username'], $order_by, $order);
 	echo th_order_by('groups', $text['label-groups'], $order_by, $order);
-	echo th_order_by('contact_organization', $text['label-organization'], $order_by, $order);
-	echo th_order_by('contact_name', $text['label-name'], $order_by, $order);
-	//echo th_order_by('contact_name_family', $text['label-contact_name_family'], $order_by, $order);
+	if (permission_exists('contact_view')) {
+		echo th_order_by('contact_organization', $text['label-organization'], $order_by, $order);
+		echo th_order_by('contact_name', $text['label-name'], $order_by, $order);
+		//echo th_order_by('contact_name_family', $text['label-contact_name_family'], $order_by, $order);
+	}
 	//echo th_order_by('user_status', $text['label-user_status'], $order_by, $order);
 	//echo th_order_by('add_date', $text['label-add_date'], $order_by, $order);
 	echo th_order_by('user_enabled', $text['label-user_enabled'], $order_by, $order, null, "class='center'");
@@ -258,10 +260,12 @@
 			}
 			echo "	</td>\n";
 			echo "	<td>".escape($row['groups'])."</td>\n";
-			echo "	<td>".escape($row['contact_organization'])."</td>\n";
-			echo "	<td>".escape($row['contact_name'])."</td>\n";
-			//echo "	<td>".escape($row['contact_name_given'])."</td>\n";
-			//echo "	<td>".escape($row['contact_name_family'])."</td>\n";
+			if (permission_exists('contact_view')) {
+				echo "	<td>".escape($row['contact_organization'])."</td>\n";
+				echo "	<td>".escape($row['contact_name'])."</td>\n";
+				//echo "	<td>".escape($row['contact_name_given'])."</td>\n";
+				//echo "	<td>".escape($row['contact_name_family'])."</td>\n";
+			}
 			//echo "	<td>".escape($row['user_status'])."</td>\n";
 			//echo "	<td>".escape($row['add_date'])."</td>\n";
 			if (permission_exists('user_edit')) {
