@@ -1003,7 +1003,7 @@ else {
 	echo "			first_submit = document.createElement('input');\n";
 	echo "			first_submit.type = 'submit';\n";
 	echo "			first_submit.id = 'default_submit';\n";
-	echo "			first_submit.style.display = 'none';\n";
+	echo "			first_submit.setAttribute('style',\"position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;\");\n"; //note: safari doesn't honor first submit element using "display: none;"
 	echo "			first_form.prepend(first_submit);\n";
 	echo "			window.addEventListener('keydown',function(e){\n";
 	echo "				if (e.which == 13 && (e.target.tagName == 'INPUT' || e.target.tagName == 'SELECT')) {\n";
@@ -1025,7 +1025,7 @@ else {
 	echo "	window.addEventListener('keyup', function(e) {\n";
 
 //list: [insert] to add
-	echo "		if (e.which == 45 && !e.target.id != '#search') {\n";
+	echo "		if (e.which == 45 && e.target.id != 'search') {\n";
 	echo "			e.preventDefault();\n";
 	echo "			var list_add_button;\n";
 	echo "			list_add_button = document.getElementById('btn_add');\n";
@@ -1036,7 +1036,7 @@ else {
 	echo "		}\n";
 
 //list: [del] to delete checked, edit: [del] to delete
-	echo "		if (e.which == 46 && !e.target.id != '#search') {\n";
+	echo "		if (e.which == 46 && e.target.id != 'search') {\n";
 	echo "			e.preventDefault();\n";
 	echo "			if (list_checkboxes.length !== 0) {\n";
 	echo "				var list_delete_button;\n";
@@ -1063,7 +1063,7 @@ else {
 	echo "	window.addEventListener('keydown', function(e) {\n";
 
 //list: [space] to toggle checked
-	echo "		if (e.which == 32 && !e.target.id != '#search' && list_checkboxes.length !== 0) {\n"; //note: for default [space] checkbox behavior include: " && !(e.target.tagName == 'INPUT' && e.target.type == 'checkbox')"
+	echo "		if (e.which == 32 && e.target.id != 'search' && list_checkboxes.length !== 0) {\n"; //note: for default [space] checkbox behavior include: " && !(e.target.tagName == 'INPUT' && e.target.type == 'checkbox')"
 	echo "			e.preventDefault();\n";
 	echo "			var list_toggle_button;\n";
 	echo "			list_toggle_button = document.querySelector('button[name=btn_toggle]');\n";
@@ -1074,11 +1074,11 @@ else {
 	echo "		}\n";
 
 //list,edit: [ctrl]+[a] to check all
-	echo "		if ((((e.which == 97 || e.which == 65) && (e.ctrlKey || e.metaKey)) || e.which == 19)) {\n";
-	echo "			e.preventDefault();\n";
+	echo "		if ((((e.which == 97 || e.which == 65) && (e.ctrlKey || e.metaKey)) || e.which == 19) && e.target.id != 'search') {\n";
 	echo "			var list_checkbox_all;\n";
 	echo "			list_checkbox_all = document.querySelectorAll('table.list tr.list-header th.checkbox input[name=checkbox_all]');\n";
 	echo "			if (list_checkbox_all !== null && list_checkbox_all.length > 0) {\n";
+	echo "				e.preventDefault();\n";
 	echo "				for (var x = 0, max = list_checkbox_all.length; x < max; x++) {\n";
 	echo "					list_checkbox_all[x].click();\n";
 	echo "				}\n";
@@ -1086,6 +1086,7 @@ else {
 	echo "			var edit_checkbox_all;\n";
 	echo "			edit_checkbox_all = document.querySelectorAll('td.edit_delete_checkbox_all > span > input[name=checkbox_all]');\n";
 	echo "			if (edit_checkbox_all !== null && edit_checkbox_all.length > 0) {\n";
+	echo "				e.preventDefault();\n";
 	echo "				for (var x = 0, max = edit_checkbox_all.length; x < max; x++) {\n";
 	echo "					edit_checkbox_all[x].click();\n";
 	echo "				}\n";
