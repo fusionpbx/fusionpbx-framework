@@ -168,6 +168,7 @@ if (count($_POST) > 0 && strlen($_POST["persistformvar"]) == 0) {
 							$array['dialplan_details'][0]['dialplan_detail_data'] = 'timezone='.$domain_setting_value;
 							$array['dialplan_details'][0]['dialplan_detail_inline'] = 'true';
 							$array['dialplan_details'][0]['dialplan_detail_group'] = '0';
+							$array['dialplan_details'][0]['dialplan_detail_order'] = '20';
 							$p->add('dialplan_detail_add', 'temp');
 						}
 						if (is_array($array) && sizeof($array) != 0) {
@@ -777,14 +778,9 @@ if (count($_POST) > 0 && strlen($_POST["persistformvar"]) == 0) {
 	echo "</form>";
 
 	echo "<script>\n";
-	//capture enter key to submit form
-	echo "	$(window).on('keypress',function(event){\n";
-	echo "		if (event.which == 13) { submit_form(); }\n";
-	echo "	});\n";
 	//hide/convert password fields then submit form
 	echo "	function submit_form() {\n";
-	echo "		$('input:password').css('visibility','hidden');\n";
-	echo "		$('input:password').attr({type:'text'});\n";
+	echo "		hide_password_fields();\n";
 	echo "		$('form#frm').submit();\n";
 	echo "	}\n";
 	//define lowercase class
