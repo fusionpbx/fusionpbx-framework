@@ -194,6 +194,7 @@ echo "<script language='JavaScript' type='text/javascript' src='<!--{project_pat
 							$("#domains_container").css('right','0'); //domain container right position
 							$("#domains_container").hide();
 							$("body").css({'margin-right':'0','overflow':'auto'}); //enable body scroll bars
+							document.activeElement.blur();
 						});
 					});
 				}
@@ -261,7 +262,7 @@ echo "<script language='JavaScript' type='text/javascript' src='<!--{project_pat
 			echo "		}\n";
 
 		//key: [insert], list: to add
-			echo "		if (e.which == 45 && e.target.id != 'search') {\n";
+			echo "		if (e.which == 45 && !(e.target.tagName == 'INPUT' && e.target.type == 'text') && e.target.tagName != 'TEXTAREA') {\n";
 			echo "			e.preventDefault();\n";
 			echo "			var list_add_button;\n";
 			echo "			list_add_button = document.getElementById('btn_add');\n";
@@ -272,7 +273,7 @@ echo "<script language='JavaScript' type='text/javascript' src='<!--{project_pat
 			echo "		}\n";
 
 		//key: [delete], list: to delete checked, edit: to delete
-			echo "		if (e.which == 46 && e.target.id != 'search') {\n";
+			echo "		if (e.which == 46 && !(e.target.tagName == 'INPUT' && e.target.type == 'text') && e.target.tagName != 'TEXTAREA') {\n";
 			echo "			e.preventDefault();\n";
 			echo "			if (list_checkboxes.length !== 0) {\n";
 			echo "				var list_delete_button;\n";
@@ -299,7 +300,7 @@ echo "<script language='JavaScript' type='text/javascript' src='<!--{project_pat
 			echo "	window.addEventListener('keydown', function(e) {\n";
 
 		//key: [space], list: to toggle checked
-			echo "		if (e.which == 32 && e.target.id != 'search' && list_checkboxes.length !== 0) {\n"; //note: for default [space] checkbox behavior include: " && !(e.target.tagName == 'INPUT' && e.target.type == 'checkbox')"
+			echo "		if (e.which == 32 && !(e.target.tagName == 'INPUT' && e.target.type == 'text') && e.target.tagName != 'TEXTAREA' && list_checkboxes.length !== 0) {\n"; //note: for default [space] checkbox behavior (ie. toggle focused checkbox) include: " && !(e.target.tagName == 'INPUT' && e.target.type == 'checkbox')"
 			echo "			e.preventDefault();\n";
 			echo "			var list_toggle_button;\n";
 			echo "			list_toggle_button = document.querySelector('button[name=btn_toggle]');\n";
@@ -310,7 +311,7 @@ echo "<script language='JavaScript' type='text/javascript' src='<!--{project_pat
 			echo "		}\n";
 
 		//key: [ctrl]+[a], list,edit: to check all
-			echo "		if ((((e.which == 97 || e.which == 65) && (e.ctrlKey || e.metaKey)) || e.which == 19) && e.target.id != 'search') {\n";
+			echo "		if ((((e.which == 97 || e.which == 65) && (e.ctrlKey || e.metaKey)) || e.which == 19) && !(e.target.tagName == 'INPUT' && e.target.type == 'text') && e.target.tagName != 'TEXTAREA') {\n";
 			echo "			var list_checkbox_all;\n";
 			echo "			list_checkbox_all = document.querySelectorAll('table.list tr.list-header th.checkbox input[name=checkbox_all]');\n";
 			echo "			if (list_checkbox_all !== null && list_checkbox_all.length > 0) {\n";
@@ -338,6 +339,25 @@ echo "<script language='JavaScript' type='text/javascript' src='<!--{project_pat
 			echo "				edit_save_button = document.querySelector('button[name=btn_save]');\n";
 			echo "			}\n";
 			echo "			if (edit_save_button !== null) { edit_save_button.click(); }\n";
+			echo "		}\n";
+
+		//key: [ctrl]+[c], list,edit: to copy
+			if (http_user_agent('name_short') == 'Safari') { //emulate with detecting [c] only, as [command] and [control] keys are ignored if captured
+				echo "	if ((e.which == 99 || e.which == 67) && !(e.target.tagName == 'INPUT' && e.target.type == 'text') && e.target.tagName != 'TEXTAREA') {\n";
+			}
+			else {
+				echo "	if ((((e.which == 99 || e.which == 67) && (e.ctrlKey || e.metaKey)) || (e.which == 19)) && !(e.target.tagName == 'INPUT' && e.target.type == 'text') && e.target.tagName != 'TEXTAREA') {\n";
+			}
+			echo "			var current_selection, copy_button;\n";
+			echo "			current_selection = window.getSelection();\n";
+			echo "			if (current_selection === null || current_selection == 'undefined' || current_selection.toString() == '') {\n";
+			echo "				e.preventDefault();\n";
+			echo "				copy_button = document.getElementById('btn_copy');\n";
+			echo "				if (copy_button === null || copy_button === 'undefined') {\n";
+			echo "					copy_button = document.querySelector('button[name=btn_copy]');\n";
+			echo "				}\n";
+			echo "				if (copy_button !== null) { copy_button.click(); }\n";
+			echo "			}\n";
 			echo "		}\n";
 
 		//end keydown
@@ -661,6 +681,7 @@ echo "<script language='JavaScript' type='text/javascript' src='<!--{project_pat
 
 		function modal_close() {
 			document.location.href='#';
+			document.activeElement.blur();
 		}
 
 		function hide_password_fields() {
