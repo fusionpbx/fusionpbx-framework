@@ -469,6 +469,9 @@
 				}
 			}
 
+		//set the password hash cost
+			$options = array('cost' => 10);
+
 		//add user setting to array for update
 			$array['users'][$x]['user_uuid'] = $user_uuid;
 			$array['users'][$x]['domain_uuid'] = $domain_uuid;
@@ -476,9 +479,8 @@
 				$array['users'][$x]['username'] = $username;
 			}
 			if ($password != '' && $password == $password_confirm) {
-				$salt = uuid();
-				$array['users'][$x]['password'] = md5($salt.$password);
-				$array['users'][$x]['salt'] = $salt;
+				$array['users'][$x]['password'] = password_hash($password, PASSWORD_DEFAULT, $options);
+				$array['users'][$x]['salt'] = null;
 			}
 			$array['users'][$x]['user_email'] = $user_email;
 			$array['users'][$x]['user_status'] = $user_status;
@@ -654,12 +656,12 @@
 		echo "<span style='color: #b00;'>".$text['message-unsaved_changes']." <i class='fas fa-exclamation-triangle' style='margin-right: 15px;'></i></span>";
 	}
 	if (permission_exists('user_add') || permission_exists('user_edit')) {
-		echo button::create(['type'=>'button','label'=>$text['button-back'],'icon'=>$_SESSION['theme']['button_icon_back'],'style'=>'margin-right: 15px;','link'=>'users.php']);
+		echo button::create(['type'=>'button','label'=>$text['button-back'],'icon'=>$_SESSION['theme']['button_icon_back'],'id'=>'btn_back','style'=>'margin-right: 15px;','link'=>'users.php']);
 	}
 	if (permission_exists('ticket_add') || permission_exists('ticket_edit')) {
 		echo button::create(['type'=>'button','label'=>$text['button-tickets'],'icon'=>'tags','style'=>'margin-right: 15px;','link'=>PROJECT_PATH.'/app/tickets/tickets.php?user_uuid='.urlencode($user_uuid)]);
 	}
-	echo button::create(['type'=>'button','label'=>$text['button-save'],'icon'=>$_SESSION['theme']['button_icon_save'],'onclick'=>'submit_form();']);
+	echo button::create(['type'=>'button','label'=>$text['button-save'],'icon'=>$_SESSION['theme']['button_icon_save'],'id'=>'btn_save','onclick'=>'submit_form();']);
 	echo "	</div>\n";
 	echo "	<div style='clear: both;'></div>\n";
 	echo "</div>\n";
