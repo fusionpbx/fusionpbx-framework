@@ -103,28 +103,27 @@
 
 	if (!function_exists('uuid')) {
 		function uuid() {
-			//uuid version 4
-			return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-				// 32 bits for "time_low"
-				mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
-
-				// 16 bits for "time_mid"
-				mt_rand( 0, 0xffff ),
-
-				// 16 bits for "time_hi_and_version",
-				// four most significant bits holds version number 4
-				mt_rand( 0, 0x0fff ) | 0x4000,
-
-				// 16 bits, 8 bits for "clk_seq_hi_res",
-				// 8 bits for "clk_seq_low",
-				// two most significant bits holds zero and one for variant DCE1.1
-				mt_rand( 0, 0x3fff ) | 0x8000,
-
-				// 48 bits for "node"
-				mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff )
-			);
+			$uuid = null;
+			$which_uuidgen = shell_exec("which uuidgen");
+			if (strlen($which_uuidgen) > 0) {
+				if (PHP_OS === 'FreeBSD') {
+					$uuid = trim(shell_exec("uuidgen"));
+				}
+				if (PHP_OS === 'Linux') {
+					$uuid = trim(shell_exec("uuidgen -r"));
+				}
+				if (!is_uuid($uuid)) {
+					$uuid = trim(shell_exec("uuidgen"));
+				}
+			}
+			if (!is_uuid($uuid) && PHP_OS === 'Linux') {
+				$uuid = trim(file_get_contents('/proc/sys/kernel/random/uuid'));
+			}
+			if (function_exists('com_create_guid') === true && PHP_OS === 'Windows') {
+				$uuid = trim(com_create_guid(), '{}');
+			}
+			return $uuid;
 		}
-		//echo uuid();
 	}
 
 	if (!function_exists('is_uuid')) {
@@ -895,19 +894,17 @@ function format_string ($format, $data) {
 //generate a random password with upper, lowercase and symbols
 	function generate_password($length = 0, $strength = 0) {
 		$password = '';
-		$charset = '';
+		$chars = '';
 		if ($length === 0 && $strength === 0) { //set length and strenth if specified in default settings and strength isn't numeric-only
 			$length = (is_numeric($_SESSION["extension"]["password_length"]["numeric"])) ? $_SESSION["extension"]["password_length"]["numeric"] : 10;
 			$strength = (is_numeric($_SESSION["extension"]["password_strength"]["numeric"])) ? $_SESSION["extension"]["password_strength"]["numeric"] : 4;
 		}
-		if ($strength >= 1) { $charset .= "0123456789"; }
-		if ($strength >= 2) { $charset .= "abcdefghijkmnopqrstuvwxyz";	}
-		if ($strength >= 3) { $charset .= "ABCDEFGHIJKLMNPQRSTUVWXYZ";	}
-		if ($strength >= 4) { $charset .= "!!!!!^$%*?....."; }
-		srand((double)microtime() * rand(1000000, 9999999));
-		while ($length > 0) {
-				$password .= $charset[rand(0, strlen($charset)-1)];
-				$length--;
+		if ($strength >= 1) { $chars .= "0123456789"; }
+		if ($strength >= 2) { $chars .= "abcdefghijkmnopqrstuvwxyz"; }
+		if ($strength >= 3) { $chars .= "ABCDEFGHIJKLMNPQRSTUVWXYZ"; }
+		if ($strength >= 4) { $chars .= "!^$%*?."; }
+		for ($i = 0; $i < $length; $i++) {
+			$password .= $chars[random_int(0, strlen($chars)-1)];
 		}
 		return $password;
 	}
@@ -2079,13 +2076,11 @@ function number_pad($number,$n) {
 //add a random_bytes function when it doesn't exist for old versions of PHP
 	if (!function_exists('random_bytes')) {
 		function random_bytes($length) {
-			$charset .= "0123456789";
-			$charset .= "abcdefghijkmnopqrstuvwxyz";
-			$charset .= "ABCDEFGHIJKLMNPQRSTUVWXYZ";
-			srand((double)microtime() * rand(1000000, 9999999));
-			while ($length > 0) {
-				$string .= $charset[rand(0, strlen($charset)-1)];
-				$length--;
+			$chars .= "0123456789";
+			$chars .= "abcdefghijkmnopqrstuvwxyz";
+			$chars .= "ABCDEFGHIJKLMNPQRSTUVWXYZ";
+			for ($i = 0; $i < $length; $i++) {
+				$string .= $chars[random_int(0, strlen($chars)-1)];
 			}
 			return $string.' ';
 		}
