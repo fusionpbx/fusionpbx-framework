@@ -895,8 +895,8 @@ function format_string ($format, $data) {
 		$password = '';
 		$chars = '';
 		if ($length === 0 && $strength === 0) { //set length and strenth if specified in default settings and strength isn't numeric-only
-			$length = (is_numeric($_SESSION["extension"]["password_length"]["numeric"])) ? $_SESSION["extension"]["password_length"]["numeric"] : 10;
-			$strength = (is_numeric($_SESSION["extension"]["password_strength"]["numeric"])) ? $_SESSION["extension"]["password_strength"]["numeric"] : 4;
+			$length = (is_numeric($_SESSION["users"]["password_length"]["numeric"])) ? $_SESSION["users"]["password_length"]["numeric"] : 20;
+			$strength = (is_numeric($_SESSION["users"]["password_strength"]["numeric"])) ? $_SESSION["users"]["password_strength"]["numeric"] : 4;
 		}
 		if ($strength >= 1) { $chars .= "0123456789"; }
 		if ($strength >= 2) { $chars .= "abcdefghijkmnopqrstuvwxyz"; }
@@ -2115,6 +2115,42 @@ function number_pad($number,$n) {
 	if (!function_exists('random_int')) {
 		function random_int() {
 			return rand ();
+		}
+	}
+
+//manage submitted form values in a session array
+	if (!function_exists('persistent_form_values')) {
+		function persistent_form_values($action, $array = null) {
+			switch ($action) {
+				case 'store':
+					if (is_array($array) && @sizeof($array) != 0) {
+						$_SESSION[$_SERVER['PHP_SELF']] = $array;
+					}
+					break;
+				case 'exists':
+					return is_array($_SESSION[$_SERVER['PHP_SELF']]) && @sizeof($_SESSION[$_SERVER['PHP_SELF']]) != 0 ? true : false;
+					break;
+				case 'load':
+					if (is_array($_SESSION[$_SERVER['PHP_SELF']]) && @sizeof($_SESSION[$_SERVER['PHP_SELF']]) != 0) {
+						foreach ($_SESSION[$_SERVER['PHP_SELF']] as $key => $value) {
+							if ($key != 'XID' && $key != 'ACT' && $key != 'RET') {
+								global $$key;
+								$$key = $value;
+							}
+						}
+						global $unsaved;
+						$unsaved = true;
+					}
+					break;
+				case 'view':
+					if (is_array($_SESSION[$_SERVER['PHP_SELF']]) && @sizeof($_SESSION[$_SERVER['PHP_SELF']]) != 0) {
+						view_array($_SESSION[$_SERVER['PHP_SELF']], false);
+					}
+					break;
+				case 'clear':
+					unset($_SESSION[$_SERVER['PHP_SELF']]);
+					break;
+			}
 		}
 	}
 
