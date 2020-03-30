@@ -2364,6 +2364,12 @@ header('Expires: '.gmdate('D, d M Y H:i:s',time()+3600).' GMT');
 		white-space: nowrap;
 		}
 
+	div.action_bar > div.actions > div.unsaved {
+		display: inline-block;
+		margin-right: 30px;
+		color: #b00;
+		}
+
 	/* used primarily in contacts */
 	div.action_bar.shrink {
 		margin-bottom: 0;
@@ -2671,6 +2677,10 @@ header('Expires: '.gmdate('D, d M Y H:i:s',time()+3600).' GMT');
 		margin: <?php echo $_SESSION['theme']['modal_message_margin']['text'] != '' ? $_SESSION['theme']['modal_message_margin']['text'] : '0 0 20px 0'; ?>;
 		}
 
+	.modal-actions {
+		display: block;
+		text-align: left;
+		}
 
 <?php
 
