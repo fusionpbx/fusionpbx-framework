@@ -384,29 +384,31 @@
 				$parameters = explode('&', $http_get_params);
 				if (is_array($parameters)) {
 					foreach ($parameters as $parameter) {
-						$array = explode('=', $parameter);
-						$key = preg_replace('#[^a-zA-Z0-9_\-]#', '', $array['0']);
-						$value = urldecode($array['1']);
-						if ($key == 'order_by' && strlen($value) > 0) {
-							//validate order by
-							$sanitized_parameters .= "&order_by=". preg_replace('#[^a-zA-Z0-9_\-]#', '', $value);
-						}
-						else if ($key == 'order' && strlen($value) > 0) {
-							//validate order
-							switch ($value) {
-								case 'asc':
-									$sanitized_parameters .= "&order=asc";
-									break;
-								case 'desc':
-									$sanitized_parameters .= "&order=desc";
-									break;
+						if (substr_count($parameter, '=') != 0) {
+							$array = explode('=', $parameter);
+							$key = preg_replace('#[^a-zA-Z0-9_\-]#', '', $array['0']);
+							$value = urldecode($array['1']);
+							if ($key == 'order_by' && strlen($value) > 0) {
+								//validate order by
+								$sanitized_parameters .= "&order_by=". preg_replace('#[^a-zA-Z0-9_\-]#', '', $value);
 							}
-						}
-						else if (strlen($value) > 0 && is_numeric($value)) {
-							$sanitized_parameters .= "&".$key."=".$value;
-						}
-						else {
-							$sanitized_parameters .= "&".$key."=".urlencode($value);
+							else if ($key == 'order' && strlen($value) > 0) {
+								//validate order
+								switch ($value) {
+									case 'asc':
+										$sanitized_parameters .= "&order=asc";
+										break;
+									case 'desc':
+										$sanitized_parameters .= "&order=desc";
+										break;
+								}
+							}
+							else if (strlen($value) > 0 && is_numeric($value)) {
+								$sanitized_parameters .= "&".$key."=".$value;
+							}
+							else {
+								$sanitized_parameters .= "&".$key."=".urlencode($value);
+							}
 						}
 					}
 				}
@@ -1166,7 +1168,7 @@ function number_pad($number,$n) {
 					for ($i = 0; $i <= 2; $i++) {
 						$hex_color = dechex($color[$i]);
 						if (strlen($hex_color) == 1) { $hex_color = '0'.$hex_color; }
-						$hex = $hex_color;
+						$hex .= $hex_color;
 					}
 					return $hash.$hex;
 				}
@@ -1945,8 +1947,14 @@ function number_pad($number,$n) {
 
 //output pre-formatted array keys and values
 	if (!function_exists('view_array')) {
-		function view_array($array, $exit = true) {
-			echo "<br><pre style='text-align: left;'>".print_r($array, true).'</pre><br>';
+		function view_array($array, $exit = true, $return = false) {
+			$html = "<br><pre style='text-align: left;'>".print_r($array, true).'</pre><br>';
+			if ($return) {
+				return $html;
+			}
+			else {
+				echo $html;
+			}
 			$exit and exit();
 		}
 	}
