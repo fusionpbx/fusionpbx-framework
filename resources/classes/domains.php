@@ -443,6 +443,29 @@ if (!class_exists('domains')) {
 			//set the PDO error mode
 				$this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+			//get previous domains settings
+				if (strlen($_SESSION["previous_domain_uuid"]) > 0) {
+					$sql = "select * from v_domain_settings ";
+					$sql .= "where domain_uuid = '" . $_SESSION["previous_domain_uuid"] . "' ";
+					$sql .= "and domain_setting_enabled = 'true' ";
+					try {
+						$prep_statement = $this->db->prepare($sql . " order by domain_setting_order asc ");
+						$prep_statement->execute();
+					}
+					catch(PDOException $e) {
+						$prep_statement = $this->db->prepare($sql);
+						$prep_statement->execute();
+					}
+					$result = $prep_statement->fetchAll(PDO::FETCH_NAMED);
+
+					//unset previous domain settings	
+					foreach ($result as $row) {
+						unset($_SESSION[$row['domain_setting_category']]);
+					}
+					unset($_SESSION["previous_domain_uuid"]);
+				}
+	
+
 			//get the default settings
 				$sql = "select * from v_default_settings ";
 				try {
