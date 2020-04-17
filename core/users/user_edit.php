@@ -1032,8 +1032,8 @@
 	echo "</td>\n";
 	echo "<td class='vtable' align='left'>\n";
 	echo "	<select class='formfld' name='user_enabled'>\n";
-	echo "		<option value='true'>".$text['option-true']."</option>\n";
-	echo "		<option value='false' ".(($user_enabled != "true") ? "selected='selected'" : null).">".$text['option-false']."</option>\n";
+	echo "		<option value='true' ".(($user_enabled == "true") ? "selected='selected'" : null).">".$text['option-true']."</option>\n";
+	echo "		<option value='false' ".(($user_enabled == "false") ? "selected='selected'" : null).">".$text['option-false']."</option>\n";
 	echo "	</select>\n";
 	echo "<br />\n";
 	echo $text['description-enabled']."\n";
@@ -1059,16 +1059,7 @@
 	}
 
 	echo "<script>\n";
-//uuid generation script
-	echo "function uuid() {\n";
-	echo "	var d = new Date().getTime();\n";
-	echo "	var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\n";
-	echo "		var r = (d + Math.random()*16)%16 | 0;\n";
-	echo "		d = Math.floor(d/16);\n";
-	echo "		return (c=='x' ? r : (r&0x3|0x8)).toString(16);\n";
-	echo "	});\n";
-	echo "	return uuid;\n";
-	echo "};\n";
+
 //hide password fields before submit
 	echo "	function submit_form() {\n";
 	echo "		hide_password_fields();\n";
