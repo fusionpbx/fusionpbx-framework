@@ -262,8 +262,6 @@ if (!class_exists('domains')) {
 
 										//clear the domains session array to update it
 											unset($_SESSION["domains"]);
-											unset($_SESSION["domain_uuid"]);
-											unset($_SESSION["domain_name"]);
 											unset($_SESSION['domain']);
 											unset($_SESSION['switch']);
 
@@ -457,8 +455,7 @@ if (!class_exists('domains')) {
 						$prep_statement->execute();
 					}
 					$result = $prep_statement->fetchAll(PDO::FETCH_NAMED);
-
-					//unset previous domain settings	
+				//unset previous domain settings	
 					foreach ($result as $row) {
 						unset($_SESSION[$row['domain_setting_category']]);
 					}
@@ -557,7 +554,6 @@ if (!class_exists('domains')) {
 						}
 					}
 				}
-
 			//get the user settings
 				if (array_key_exists("domain_uuid",$_SESSION) and array_key_exists("user_uuid",$_SESSION) and strlen($_SESSION["domain_uuid"]) > 0 && strlen($_SESSION["user_uuid"]) > 0) {
 					$sql = "select * from v_user_settings ";

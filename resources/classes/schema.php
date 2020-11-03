@@ -34,6 +34,7 @@ if (!class_exists('schema')) {
 			public $apps;
 			public $db_type;
 			public $result;
+			public $data_types;
 
 		//class constructor
 			public function __construct() {
@@ -381,7 +382,7 @@ if (!class_exists('schema')) {
 									$field_count++;
 								}
 							}
-							$sql .= ");\n\n";
+							$sql .= ");\n";
 							return $sql;
 						}
 					}
@@ -452,7 +453,7 @@ if (!class_exists('schema')) {
 									$field_count++;
 								}
 							}
-							$sql .= " FROM tmp_".$table.";\n\n";
+							$sql .= " FROM tmp_".$table.";\n";
 							return $sql;
 						}
 					}
@@ -463,8 +464,9 @@ if (!class_exists('schema')) {
 			public function schema ($format = '') {
  
  				//set the global variable
-					global $db, $upgrade_data_types, $text,$output_format;
-					if ($format=='') $format = $output_format;
+					global $db, $text, $output_format;
+
+					if ($format == '') $format = $output_format;
 
 				//get the db variables
 					require_once "resources/classes/config.php";
@@ -665,7 +667,7 @@ if (!class_exists('schema')) {
 
 												//change the data type if it has been changed
 													//if the data type in the app db array is different than the type in the database then change the data type
-													if ($upgrade_data_types) {
+													if ($this->data_types) {
 														$db_field_type = $this->db_column_data_type ($db_type, $db_name, $table_name, $field_name);
 														$field_type_array = explode("(", $field_type);
 														$field_type = $field_type_array[0];
@@ -703,6 +705,9 @@ if (!class_exists('schema')) {
 																				break;
 																			case 'timestamptz':
 																				$sql_update .= "ALTER TABLE ".$table_name." ALTER COLUMN ".$field_name." TYPE ".$field_type." USING ".$field_name."::timestamp with time zone;\n";
+																				break;
+																			case 'boolean':
+																				$sql_update .= "ALTER TABLE ".$table_name." ALTER COLUMN ".$field_name." TYPE ".$field_type." USING ".$field_name."::boolean;\n";
 																				break;
 																			default:
 																				//$sql_update .= "-- $db_type, $db_name, $table_name, $field_name ".db_column_data_type ($db_type, $db_name, $table_name, $field_name)."<br>";
@@ -893,11 +898,11 @@ if (!class_exists('schema')) {
 									try {
 										$this->db->query(trim($sql));
 										if ($format == "text") {
-											$response .= "	$sql\n";
+											$response .= "	$sql;\n";
 										}
 									}
 									catch (PDOException $error) {
-										$response .= "	error: " . $error->getMessage() . "	sql: $sql<br/>";
+										$response .= "	error: " . $error->getMessage() . "	sql: $sql\n";
 									}
 								}
 							}

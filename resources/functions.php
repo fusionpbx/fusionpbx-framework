@@ -106,22 +106,41 @@
 			$uuid = null;
 			if (PHP_OS === 'FreeBSD') {
 				$uuid = trim(shell_exec("uuid -v 4"));
-				if (!is_uuid($uuid)) {
+				if (is_uuid($uuid)) {
+					return $uuid;
+				}
+				else {
 					echo "Please install the following package.\n";
 					echo "pkg install ossp-uuid\n";
 					exit;
 				}
 			}
-			if (PHP_OS === 'Linux' && !is_uuid($uuid)) {
+			if (PHP_OS === 'Linux') {
 				$uuid = trim(file_get_contents('/proc/sys/kernel/random/uuid'));
+				if (is_uuid($uuid)) {
+					return $uuid;
+				}
+				else {
+					$uuid = trim(shell_exec("uuidgen"));
+					if (is_uuid($uuid)) {
+						return $uuid;
+					}
+					else {
+						echo "Please install the uuidgen.\n";
+						exit;
+					}
+				}
 			}
-			if (!is_uuid($uuid)) {
-				$uuid = trim(shell_exec("uuidgen"));
-			}
-			if (function_exists('com_create_guid') === true && PHP_OS === 'Windows') {
+			if ((strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') && function_exists('com_create_guid')) {
 				$uuid = trim(com_create_guid(), '{}');
+				if (is_uuid($uuid)) {
+					return $uuid;
+				}
+				else {
+					echo "The com_create_guid() function failed to create a uuid.\n";
+					exit;
+				}
 			}
-			return $uuid;
 		}
 	}
 
@@ -1019,30 +1038,12 @@ function number_pad($number,$n) {
 // validate email address syntax
 	if(!function_exists('valid_email')) {
 		function valid_email($email) {
-			$regex = '/^[A-z0-9][\w.-]*@[A-z0-9][\w\-\.]+(\.[A-z0-9]{2,6})?$/';
+			$regex = '/^[A-z0-9][\w.-]*@[A-z0-9][\w\-\.]+(\.[A-z0-9]{2,7})?$/';
 			if ($email != "" && preg_match($regex, $email) == 1) {
 				return true; // email address has valid syntax
 			}
 			else {
 				return false; // email address does not have valid syntax
-			}
-		}
-	}
-
-// ellipsis nicely truncate long text
-	if(!function_exists('ellipsis')) {
-		function ellipsis($string, $max_characters, $preserve_word = true) {
-			if ($max_characters+$x >= strlen($string)) { return $string; }
-			if ($preserve_word) {
-				for ($x = 0; $x < strlen($string); $x++) {
-					if ($string{$max_characters+$x} == " ") {
-						return substr($string,0,$max_characters+$x)." ...";
-					}
-					else { continue; }
-				}
-			}
-			else {
-				return substr($string,0,$max_characters)." ...";
 			}
 		}
 	}
@@ -1349,7 +1350,7 @@ function number_pad($number,$n) {
 			include_once("resources/phpmailer/class.phpmailer.php");
 			include_once("resources/phpmailer/class.smtp.php");
 
-			$regexp = '/^[A-z0-9][\w.-]*@[A-z0-9][\w\-\.]+\.[A-z0-9]{2,6}$/';
+			$regexp = '/^[A-z0-9][\w.-]*@[A-z0-9][\w\-\.]+\.[A-z0-9]{2,7}$/';
 
 			$mail = new PHPMailer();
 			$mail -> IsSMTP();
@@ -1708,6 +1709,7 @@ function number_pad($number,$n) {
 //converts a string to a regular expression
 	if (!function_exists('string_to_regex')) {
 		function string_to_regex($string, $prefix='') {
+			$original_string = $string;
 			//escape the plus
 				if (substr($string, 0, 1) == "+") {
 					$string = "^\\+(".substr($string, 1).")$";
@@ -1723,9 +1725,11 @@ function number_pad($number,$n) {
 					}
 				}
 			//convert N,X,Z syntax to regex
-				$string = str_ireplace("N", "[2-9]", $string);
-				$string = str_ireplace("X", "[0-9]", $string);
-				$string = str_ireplace("Z", "[1-9]", $string);
+				if (preg_match('/^[NnXxZz]+$/', $original_string)) {
+					$string = str_ireplace("N", "[2-9]", $string);
+					$string = str_ireplace("X", "[0-9]", $string);
+					$string = str_ireplace("Z", "[1-9]", $string);
+				}
 			//add ^ to the start of the string if missing
 				if (substr($string, 0, 1) != "^") {
 					$string = "^".$string;
@@ -1919,7 +1923,7 @@ function number_pad($number,$n) {
 		//send the mkdir command to freeswitch
 			if ($fp) {
 				//build and send the mkdir command to freeswitch
-					$switch_cmd = "lua mkdir.lua '$dir'";
+					$switch_cmd = "lua mkdir.lua ".escapeshellarg($dir);
 					$switch_result = event_socket_request($fp, 'api '.$switch_cmd);
 					fclose($fp);
 				//check result
@@ -2054,13 +2058,25 @@ function number_pad($number,$n) {
 //validate and format order by clause of select statement
 	if (!function_exists('order_by')) {
 		function order_by($col, $dir, $col_default = '', $dir_default = 'asc') {
+			$order_by = ' order by ';
 			$col = preg_replace('#[^a-zA-Z0-9-_.]#', '', $col);
 			$dir = strtolower($dir) == 'desc' ? 'desc' : 'asc';
 			if ($col != '') {
-				return ' order by '.$col.' '.$dir.' ';
+				return $order_by.$col.' '.$dir.' ';
 			}
-			else if ($col_default != '') {
-				return ' order by '.$col_default.' '.$dir_default.' ';
+			else if (is_array($col_default) || $col_default != '') {
+				if (is_array($col_default) && @sizeof($col_default) != 0) {
+					foreach ($col_default as $k => $column) {
+						$direction = (is_array($dir_default) && @sizeof($dir_default) != 0 && (strtolower($dir_default[$k]) == 'asc' || strtolower($dir_default[$k]) == 'desc')) ? $dir_default[$k] : 'asc';
+						$order_bys[] = $column.' '.$direction.' ';
+					}
+					if (is_array($order_bys) && @sizeof($order_bys) != 0) {
+						return $order_by.implode(', ', $order_bys);
+					}
+				}
+				else {
+					return $order_by.$col_default.' '.$dir_default.' ';
+				}
 			}
 		}
 	}
