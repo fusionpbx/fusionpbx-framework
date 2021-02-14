@@ -276,7 +276,7 @@
 	echo "	".$text['label-category']."\n";
 	echo "</td>\n";
 	echo "<td width='70%' class='vtable' align='left'>\n";
-	echo "	<input class='formfld' type='text' name='default_setting_category' maxlength='255' value=\"$default_setting_category\">\n";
+	echo "	<input class='formfld' type='text' name='default_setting_category' maxlength='255' value=\"".escape($default_setting_category)."\">\n";
 	echo "<br />\n";
 	echo $text['description-category']."\n";
 	echo "</td>\n";
@@ -287,7 +287,7 @@
 	echo "	".$text['label-subcategory']."\n";
 	echo "</td>\n";
 	echo "<td class='vtable' align='left'>\n";
-	echo "	<input class='formfld lowercase' type='text' name='default_setting_subcategory' id='default_setting_subcategory' maxlength='255' value=\"$default_setting_subcategory\">\n";
+	echo "	<input class='formfld lowercase' type='text' name='default_setting_subcategory' id='default_setting_subcategory' maxlength='255' value=\"".escape($default_setting_subcategory)."\">\n";
 	echo "<br />\n";
 	echo $text['description-subcategory']."\n";
 	echo "</td>\n";
@@ -298,7 +298,7 @@
 	echo "	".$text['label-type']."\n";
 	echo "</td>\n";
 	echo "<td class='vtable' align='left'>\n";
-	echo "	<input class='formfld lowercase' type='text' name='default_setting_name' id='default_setting_name' maxlength='255' value=\"$default_setting_name\">\n";
+	echo "	<input class='formfld lowercase' type='text' name='default_setting_name' id='default_setting_name' maxlength='255' value=\"".escape($default_setting_name)."\">\n";
 	echo "<br />\n";
 	echo $text['description-type']."\n";
 	echo "</td>\n";
@@ -481,7 +481,7 @@
 		echo "	<input class='formfld' type='password' id='default_setting_value' name='default_setting_value' onmouseover=\"this.type='text';\" onfocus=\"this.type='text';\" onmouseout=\"if (!$(this).is(':focus')) { this.type='password'; }\" onblur=\"this.type='password';\" maxlength='255' value=\"".$default_setting_value."\">\n";
 	}
 	elseif ($category == "theme" && substr_count($subcategory, "_color") > 0 && ($name == "text" || $name == 'array')) {
-		echo "	<input type='text' class='formfld colorpicker' id='default_setting_value' name='default_setting_value' value=\"".$default_setting_value."\">\n";
+		echo "	<input type='text' class='formfld colorpicker' id='default_setting_value' name='default_setting_value' value=\"".escape($default_setting_value)."\">\n";
 	}
 	elseif ($category == "theme" && substr_count($subcategory, "_font") > 0 && $name == "text") {
 		$default_setting_value = str_replace('"', "'", $default_setting_value);
@@ -668,6 +668,30 @@
 		echo "    	<option value='base64' ".(($default_setting_value == "base64") ? "selected='selected'" : null).">".$text['label-base64']."</option>\n";
 		echo "	</select>\n";
 	}
+	elseif ($category == "destinations" && $subcategory == "dialplan_details" && $name == "boolean" ) {
+		echo "	<select class='formfld' id='default_setting_value' name='default_setting_value'>\n";
+		echo "    	<option value='true'>".$text['label-true']."</option>\n";
+		echo "    	<option value='false' ".(($default_setting_value == "false") ? "selected='selected'" : null).">".$text['label-false']."</option>\n";
+		echo "	</select>\n";
+	}
+	elseif ($category == "destinations" && $subcategory == "dialplan_mode" && $name == "text" ) {
+		echo "	<select class='formfld' id='default_setting_value' name='default_setting_value'>\n";
+		echo "    	<option value='multiple'>".$text['label-multiple']."</option>\n";
+		echo "    	<option value='single' ".(($default_setting_value == "single") ? "selected='selected'" : null).">".$text['label-single']."</option>\n";
+		echo "	</select>\n";
+	}
+	elseif ($category == "destinations" && $subcategory == "select_mode" && $name == "text" ) {
+		echo "	<select class='formfld' id='default_setting_value' name='default_setting_value'>\n";
+		echo "    	<option value='default'>".$text['label-default']."</option>\n";
+		echo "    	<option value='dynamic' ".(($default_setting_value == "dynamic") ? "selected='selected'" : null).">".$text['label-dynamic']."</option>\n";
+		echo "	</select>\n";
+	}
+	elseif ($category == "destinations" && $subcategory == "unique" && $name == "boolean" ) {
+		echo "	<select class='formfld' id='default_setting_value' name='default_setting_value'>\n";
+		echo "    	<option value='true'>".$text['label-true']."</option>\n";
+		echo "    	<option value='false' ".(($default_setting_value == "false") ? "selected='selected'" : null).">".$text['label-false']."</option>\n";
+		echo "	</select>\n";
+	}
 	elseif (is_json($default_setting_value)) {
 		echo "	<textarea class='formfld' style='width: 100%; height: 80px; font-family: courier, monospace; overflow: auto;' id='default_setting_value' name='default_setting_value' wrap='off'>".$default_setting_value."</textarea>\n";
 	}
@@ -741,7 +765,7 @@
 	echo "	".$text['label-description']."\n";
 	echo "</td>\n";
 	echo "<td class='vtable' align='left'>\n";
-	echo "	<input class='formfld' type='text' name='default_setting_description' style='width: 80%; max-width: 600px; min-width: 167px;' maxlength='255' value=\"".$default_setting_description."\">\n";
+	echo "	<textarea class='formfld' type='text' name='default_setting_description'>".escape($default_setting_description)."</textarea>\n";
 	echo "<br />\n";
 	echo $text['description-description']."\n";
 	echo "</td>\n";
