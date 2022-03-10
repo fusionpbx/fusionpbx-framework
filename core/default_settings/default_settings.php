@@ -17,7 +17,7 @@
 
 	The Initial Developer of the Original Code is
 	Mark J Crane <markjcrane@fusionpbx.com>
-	Portions created by the Initial Developer are Copyright (C) 2008 - 2020
+	Portions created by the Initial Developer are Copyright (C) 2008 - 2021
 	the Initial Developer. All Rights Reserved.
 
 	Contributor(s):
@@ -50,6 +50,11 @@
 		$domain_uuid = $_POST['domain_uuid'];
 		$default_settings = $_POST['default_settings'];
 	}
+
+//sanitize the variables
+	$action = preg_replace('#[^a-zA-Z0-9_\-\.]#', '', $action);
+	$search = preg_replace('#[^a-zA-Z0-9_\-\. ]#', '', $search);
+	$default_setting_category = preg_replace('#[^a-zA-Z0-9_\-\.]#', '', $default_setting_category);
 
 //process the http post data by action
 	if ($action != '' && is_array($default_settings) && @sizeof($default_settings) != 0) {
@@ -128,10 +133,40 @@
 	$default_settings = $database->select($sql, $parameters, 'all');
 	unset($sql, $parameters);
 
+//get default setting categories
+	$sql = "select ";
+	$sql .= "distinct(d1.default_setting_category), ";
+	$sql .= "( ";
+	$sql .= "	select ";
+	$sql .= "	count(d2.default_setting_category) ";
+	$sql .= "	from v_default_settings as d2 ";
+	$sql .= "	where d2.default_setting_category = d1.default_setting_category ";
+	if (isset($search) && strlen($search) > 0) {
+		$sql .= "	and (";
+		$sql .= "		lower(d2.default_setting_category) like :search ";
+		$sql .= "		or lower(d2.default_setting_subcategory) like :search ";
+		$sql .= "		or lower(d2.default_setting_name) like :search ";
+		$sql .= "		or lower(d2.default_setting_value) like :search ";
+		$sql .= "		or lower(d2.default_setting_description) like :search ";
+		$sql .= "	) ";
+		$parameters['search'] = '%'.$search.'%';
+	}
+	$sql .= ") as quantity ";
+	$sql .= "from v_default_settings as d1 ";
+	$sql .= "order by d1.default_setting_category asc ";
+	$database = new database;
+	$rows = $database->select($sql, $parameters, 'all');
+	if (is_array($rows) && @sizeof($rows) != 0) {
+		foreach ($rows as $row) {
+			$default_setting_categories[$row['default_setting_category']] += $row['quantity'];
+		}
+	}
+	unset($sql, $rows, $row);
+
 //get the list of categories
-	if (is_array($default_settings) && @sizeof($default_settings) != 0) {
-		foreach ($default_settings as $default_setting) {
-			$category = strtolower($default_setting['default_setting_category']);
+	if (is_array($default_setting_categories) && @sizeof($default_setting_categories) != 0) {
+		foreach ($default_setting_categories as $default_setting_category => $quantity) {
+			$category = strtolower($default_setting_category);
 			switch ($category) {
 				case "api" : $category = "API"; break;
 				case "cdr" : $category = "CDR"; break;
@@ -142,11 +177,47 @@
 					$category = str_replace("-", " ", $category);
 					$category = ucwords($category);
 			}
-			$categories[$default_setting['default_setting_category']]['formatted'] = $category;
-			$categories[$default_setting['default_setting_category']]['count']++;
+			$categories[$default_setting_category]['formatted'] = $category;
+			$categories[$default_setting_category]['count'] = $quantity;
 		}
 		ksort($categories);
-		unset($default_setting, $category);
+		unset($default_setting_categories, $default_setting_category, $category);
+	}
+
+//get the list of installed apps from the core and mod directories
+	$config_list = glob($_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . "/*/*/app_config.php");
+	$x=0;
+	foreach ($config_list as $config_path) {
+		include($config_path);
+		$x++;
+	}
+	$x = 0;
+	foreach ($apps as $app) {
+		if (is_array($app['default_settings'])) {
+			foreach ($app['default_settings'] as $setting) {
+				$setting_array[$x] = ($setting);
+				$setting_array[$x]['app_uuid'] = $app['uuid'];
+				$x++;
+			}
+		}
+	}
+
+//create a function to find matching row in array and return the row or boolean
+	function find_in_array($search_array, $field, $value, $type = 'boolean') {
+		foreach($search_array as $row) {
+			if ($row[$field] == $value) {
+				if ($type == 'boolean') {
+					return true;
+				}
+				if ($type == 'row') {
+					return $row;
+				}
+				break;
+			}
+		}
+		if ($type == 'boolean') {
+			return false;
+		}
 	}
 
 //create token
@@ -180,15 +251,16 @@
 
 //show the content
 	echo "<div class='action_bar' id='action_bar'>\n";
-	echo "	<div class='heading'><b>".$text['title-default_settings']." (".$num_rows.")</b></div>\n";
+	echo "	<div class='heading'><b>".$text['title-default_settings']." (".number_format($num_rows).")</b></div>\n";
 	echo "	<div class='actions'>\n";
+	echo button::create(['type'=>'button','label'=>$text['label-domain'],'icon'=>$_SESSION['theme']['button_icon_all'],'style'=>'','link'=>PROJECT_PATH.'/core/domain_settings/domain_settings.php?id='.$domain_uuid]);
 	echo button::create(['label'=>$text['button-reload'],'icon'=>$_SESSION['theme']['button_icon_reset'],'type'=>'button','id'=>'button_reload','link'=>'default_settings_reload.php'.($search != '' ? '?search='.urlencode($search) : null),'style'=>'margin-right: 15px;']);
 	if (permission_exists('default_setting_add')) {
 		echo button::create(['type'=>'button','label'=>$text['button-add'],'icon'=>$_SESSION['theme']['button_icon_add'],'id'=>'btn_add','link'=>'default_setting_edit.php']);
 	}
 	if (permission_exists('default_setting_add') && $default_settings) {
 		if (permission_exists("domain_select") && permission_exists("domain_setting_add") && count($_SESSION['domains']) > 1) {
-			echo button::create(['type'=>'button','label'=>$text['button-copy'],'id'=>'btn_copy','icon'=>$_SESSION['theme']['button_icon_copy'],'id'=>'btn_copy','onclick'=>'show_domains();']);
+			echo button::create(['type'=>'button','label'=>$text['button-copy'],'id'=>'btn_copy','name'=>'btn_copy','style'=>'display: none;','icon'=>$_SESSION['theme']['button_icon_copy'],'id'=>'btn_copy','onclick'=>'show_domains();']);
 			echo button::create(['type'=>'button','label'=>$text['button-cancel'],'id'=>'btn_copy_cancel','icon'=>$_SESSION['theme']['button_icon_cancel'],'style'=>'display: none;','onclick'=>'hide_domains();']);
 			echo 		"<select name='domain_uuid' class='formfld' style='display: none; width: auto;' id='target_domain_uuid' onchange=\"document.getElementById('domain_uuid').value = this.options[this.selectedIndex].value;\">\n";
 			echo "			<option value=''>".$text['label-domain']."...</option>\n";
@@ -200,25 +272,26 @@
 		}
 	}
 	if (permission_exists('default_setting_edit') && $default_settings) {
-		echo button::create(['type'=>'button','label'=>$text['button-toggle'],'icon'=>$_SESSION['theme']['button_icon_toggle'],'name'=>'btn_toggle','onclick'=>"modal_open('modal-toggle','btn_toggle');"]);
+		echo button::create(['type'=>'button','label'=>$text['button-toggle'],'icon'=>$_SESSION['theme']['button_icon_toggle'],'id'=>'btn_toggle','name'=>'btn_toggle','style'=>'display: none;','onclick'=>"modal_open('modal-toggle','btn_toggle');"]);
 	}
 	if (permission_exists('default_setting_delete') && $default_settings) {
-		echo button::create(['type'=>'button','label'=>$text['button-delete'],'icon'=>$_SESSION['theme']['button_icon_delete'],'name'=>'btn_delete','onclick'=>"modal_open('modal-delete','btn_delete');"]);
+		echo button::create(['type'=>'button','label'=>$text['button-delete'],'icon'=>$_SESSION['theme']['button_icon_delete'],'id'=>'btn_delete','name'=>'btn_delete','style'=>'display: none;','onclick'=>"modal_open('modal-delete','btn_delete');"]);
 	}
 	echo 		"<form id='form_search' class='inline' method='get'>\n";
 	if (is_array($categories) && @sizeof($categories) != 0) {
 		echo 		"<select name='default_setting_category' class='formfld' style='width: auto; margin-left: 15px;' id='select_category' onchange='this.form.submit();'>\n";
 		echo "			<option value=''>".$text['label-category']."...</option>\n";
+		echo "			<option value=''>".$text['label-all']."</option>\n";
 		foreach ($categories as $category_name => $category) {
 			$selected = ($_GET['default_setting_category'] == $category_name) ? " selected='selected'" : "";
-			echo "		<option value='".escape($category_name)."' $selected>".escape($category['formatted'])." (".$category['count'].")</option>\n";
+			echo "		<option value='".escape($category_name)."' $selected>".escape($category['formatted']).($category['count'] ? " (".$category['count'].")" : null)."</option>\n";
 		}
-		echo "			<option value=''>".$text['label-all']." (".$num_rows.")</option>\n";
+		echo "			<option disabled='disabled'>\n";
+		echo "			<option value=''>".$text['label-all']."</option>\n";
 		echo "		</select>";
 	}
-	echo 		"<input type='text' class='txt list-search' name='search' id='search' style='margin-left: 0 !important;' value=\"".escape($search)."\" placeholder=\"".$text['label-search']."\" onkeydown='list_search_reset();'>";
-	echo button::create(['label'=>$text['button-search'],'icon'=>$_SESSION['theme']['button_icon_search'],'type'=>'submit','id'=>'btn_search','style'=>($search != '' ? '' : null)]);
-	//echo button::create(['label'=>$text['button-search'],'icon'=>$_SESSION['theme']['button_icon_search'],'type'=>'submit','id'=>'btn_search','style'=>($search != '' ? 'display: none;' : null)]);
+	echo 		"<input type='text' class='txt list-search' name='search' id='search' style='margin-left: 0 !important;' value=\"".escape($search)."\" placeholder=\"".$text['label-search']."\" onkeydown=''>";
+	echo button::create(['label'=>$text['button-search'],'icon'=>$_SESSION['theme']['button_icon_search'],'type'=>'submit','id'=>'btn_search']);
 	//echo button::create(['label'=>$text['button-reset'],'icon'=>$_SESSION['theme']['button_icon_reset'],'type'=>'button','id'=>'btn_reset','link'=>'default_settings.php','style'=>($search == '' ? 'display: none;' : null)]);
 	if ($paging_controls_mini != '') {
 		echo 	"<span style='margin-left: 15px;'>".$paging_controls_mini."</span>\n";
@@ -247,8 +320,35 @@
 		$x = 0;
 		foreach ($default_settings as $row) {
 			$default_setting_category = strtolower($row['default_setting_category']);
+			$default_setting_category = preg_replace('#[^a-zA-Z0-9_\-\.]#', '', $default_setting_category);
 
 			$label_default_setting_category = $row['default_setting_category'];
+			$label_default_setting_category = preg_replace('#[^a-zA-Z0-9_\-\. ]#', '', $label_default_setting_category);
+
+			//check if the default setting uuid exists in the array
+			$field = find_in_array($setting_array, 'default_setting_uuid',  $row['default_setting_uuid'], 'row');
+			unset($setting_bold, $enabled_bold, $default_value, $default_enabled);
+			if (is_array($field)) {
+				if ($row['default_setting_value'] !== $field['default_setting_value']) {
+					$setting_bold = 'font-weight:bold;';
+				}
+				if (strlen($field['default_setting_value']) > 0) {
+					$default_value = 'Default: '.$field['default_setting_value'];
+				}
+				else {
+					$default_value = 'Default: null';
+				}
+				if ($row['default_setting_enabled'] != $field['default_setting_enabled']) {
+					$default_enabled = $field['default_setting_enabled'];
+					$enabled_bold = true;
+				}
+			}
+			else {
+				$default_value = 'Custom';
+				$setting_bold = 'font-weight:bold;';
+			}
+			unset($field);
+
 			switch (strtolower($label_default_setting_category)) {
 				case "api" : $label_default_setting_category = "API"; break;
 				case "cdr" : $label_default_setting_category = "CDR"; break;
@@ -273,7 +373,7 @@
 				echo "<tr class='list-header'>\n";
 				if (permission_exists('default_setting_add') || permission_exists('default_setting_edit') || permission_exists('default_setting_delete')) {
 					echo "	<th class='checkbox'>\n";
-					echo "		<input type='checkbox' id='checkbox_all_".$default_setting_category."' name='checkbox_all' onclick=\"list_all_toggle('".$default_setting_category."');\">\n";
+					echo "		<input type='checkbox' id='checkbox_all_".$default_setting_category."' name='checkbox_all' onclick=\"list_all_toggle('".$default_setting_category."'); checkbox_on_change(this);\">\n";
 					echo "	</th>\n";
 				}
 				if ($_GET['show'] == 'all' && permission_exists('default_setting_all')) {
@@ -295,7 +395,7 @@
 			echo "<tr class='list-row' href='".$list_row_url."'>\n";
 			if (permission_exists('default_setting_add') || permission_exists('default_setting_edit') || permission_exists('default_setting_delete')) {
 				echo "	<td class='checkbox'>\n";
-				echo "		<input type='checkbox' name='default_settings[$x][checked]' id='checkbox_".$x."' class='checkbox_".$default_setting_category."' value='true' onclick=\"if (!this.checked) { document.getElementById('checkbox_all_".$default_setting_category."').checked = false; }\">\n";
+				echo "		<input type='checkbox' name='default_settings[$x][checked]' id='checkbox_".$x."' class='checkbox_".$default_setting_category."' value='true' onclick=\"checkbox_on_change(this); if (!this.checked) { document.getElementById('checkbox_all_".$default_setting_category."').checked = false; }\">\n";
 				echo "		<input type='hidden' name='default_settings[$x][uuid]' value='".escape($row['default_setting_uuid'])."' />\n";
 				echo "	</td>\n";
 			}
@@ -311,7 +411,8 @@
 			}
 			echo "	</td>\n";
 			echo "	<td class='hide-sm-dn'>".escape($row['default_setting_name'])."</td>\n";
-			echo "	<td class='overflow no-wrap'>\n";
+			echo "	<td class='overflow no-wrap' title=\"".escape($default_value)."\" style=\"".$setting_bold."\">\n";
+
 			$category = $row['default_setting_category'];
 			$subcategory = $row['default_setting_subcategory'];
 			$name = $row['default_setting_name'];
@@ -364,7 +465,10 @@
 			else if ($category == 'theme' && $subcategory == 'menu_side_toggle_body_width' && $name == 'text') {
 				echo "		".$text['option-'.$row['default_setting_value']]."\n";
 			}
-			else if ($category == "theme" && substr_count($subcategory, "_color") > 0 && ($name == "text" || $name == 'array')) {
+			else if ($category == 'theme' && $subcategory == 'menu_side_item_main_sub_close' && $name == 'text') {
+				echo "		".$text['option-'.$row['default_setting_value']]."\n";
+			}
+			else if (substr_count($subcategory, "_color") > 0 && ($name == "text" || $name == 'array')) {
 				echo "		".(img_spacer('15px', '15px', 'background: '.escape($row['default_setting_value']).'; margin-right: 4px; vertical-align: middle; border: 1px solid '.(color_adjust($row['default_setting_value'], -0.18)).'; padding: -1px;'));
 				echo "<span style=\"font-family: 'Courier New'; line-height: 6pt;\">".escape($row['default_setting_value'])."</span>\n";
 			}
@@ -374,16 +478,27 @@
 			else if ($category == 'recordings' && $subcategory == 'storage_type' && $name == 'text') {
 				echo "		".$text['label-'.$row['default_setting_value']]."\n";
 			}
+			else if ($category == 'destinations' && $subcategory == 'dialplan_mode' && $name == 'text') {
+				echo "		".$text['label-'.$row['default_setting_value']]."\n";
+			}
+			else if ($category == 'destinations' && $subcategory == 'select_mode' && $name == 'text') {
+				echo "		".$text['label-'.$row['default_setting_value']]."\n";
+			}
 			else {
 				echo "		".escape($row['default_setting_value'])."\n";
 			}
 			echo "	</td>\n";
 			if (permission_exists('default_setting_edit')) {
 				echo "	<td class='no-link center'>\n";
-				echo button::create(['type'=>'submit','class'=>'link','label'=>$text['label-'.$row['default_setting_enabled']],'title'=>$text['button-toggle'],'onclick'=>"list_self_check('checkbox_".$x."'); list_action_set('toggle'); list_form_submit('form_list')"]);
+				if (isset($enabled_bold)) {
+					echo button::create(['type'=>'submit','class'=>'link','style'=>'font-weight:bold', 'label'=>$text['label-'.$row['default_setting_enabled']],'title'=>$text['button-toggle'],'onclick'=>"list_self_check('checkbox_".$x."'); list_action_set('toggle'); list_form_submit('form_list')"]);
+				}
+				else {
+					echo button::create(['type'=>'submit','class'=>'link','label'=>$text['label-'.$row['default_setting_enabled']],'title'=>$text['button-toggle'],'onclick'=>"list_self_check('checkbox_".$x."'); list_action_set('toggle'); list_form_submit('form_list')"]);
+				}
 			}
 			else {
-				echo "	<td class='center'>\n";
+				echo "	<td class='center' title=\"".escape($default_enabled)."\" style=\"".$setting_bold."\">\n";
 				echo $text['label-'.$row['default_setting_enabled']];
 			}
 			echo "	</td>\n";
@@ -409,13 +524,6 @@
 	echo "<div align='center'>".$paging_controls."</div>\n";
 	echo "<input type='hidden' name='".$token['name']."' value='".$token['hash']."'>\n";
 	echo "</form>\n";
-
-//focus on category selector
-	echo "<script>\n";
-	echo "	$(document).ready(function() {\n";
-	echo "		document.getElementById('select_category').focus();\n";
-	echo "	});\n";
-	echo "</script>\n";
 
 //include the footer
 	require_once "resources/footer.php";

@@ -108,7 +108,6 @@
 	$sql_where .= "and not ( ";
 	$sql_where .= "(user_setting_category = 'domain' and user_setting_subcategory = 'language') ";
 	$sql_where .= "or (user_setting_category = 'domain' and user_setting_subcategory = 'time_zone') ";
-	$sql_where .= "or (user_setting_category = 'message' and user_setting_subcategory = 'key') ";
 	$sql_where .= ") ";
 	$parameters['user_uuid'] = $user_uuid;
 
@@ -302,6 +301,12 @@
 				echo "		".$text['option-username_format_'.$row['user_setting_value']]."\n";
 			}
 			else if ($category == 'recordings' && $subcategory == 'storage_type' && $name == 'text') {
+				echo "		".$text['label-'.$row['user_setting_value']]."\n";
+			}
+			else if ($category == 'destinations' && $subcategory == 'dialplan_mode' && $name == 'text') {
+				echo "		".$text['label-'.$row['user_setting_value']]."\n";
+			}
+			else if ($category == 'destinations' && $subcategory == 'select_mode' && $name == 'text') {
 				echo "		".$text['label-'.$row['user_setting_value']]."\n";
 			}
 			else {

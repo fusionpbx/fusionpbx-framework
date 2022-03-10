@@ -164,6 +164,7 @@
 	echo "	<div class='actions'>\n";
 	echo button::create(['type'=>'button','label'=>$text['button-back'],'icon'=>$_SESSION['theme']['button_icon_back'],'id'=>'action_bar_sub_button_back','style'=>'','link'=>PROJECT_PATH.'/core/domains/domains.php']);
 	if (permission_exists('default_setting_view') && $num_rows) {
+		echo button::create(['type'=>'button','label'=>$text['select-global'],'icon'=>$_SESSION['theme']['button_icon_all'],'style'=>'','link'=>PROJECT_PATH.'/core/default_settings/default_settings.php']);
 		echo button::create(['type'=>'button','label'=>$text['button-reload'],'icon'=>$_SESSION['theme']['button_icon_reload'],'style'=>'margin-right: 15px;','link'=>PROJECT_PATH.'/core/default_settings/default_settings_reload.php?id='.$domain_uuid]);
 	}
 	if (permission_exists('domain_setting_add')) {
@@ -328,6 +329,9 @@
 			else if ($category == 'theme' && $subcategory == 'menu_side_toggle_body_width' && $name == 'text') {
 				echo "		".$text['option-'.$row['domain_setting_value']]."\n";
 			}
+			else if ($category == 'theme' && $subcategory == 'menu_side_item_main_sub_close' && $name == 'text') {
+				echo "		".$text['option-'.$row['domain_setting_value']]."\n";
+			}
 			else if ($category == "theme" && substr_count($subcategory, "_color") > 0 && ($name == "text" || $name == 'array')) {
 				echo "		".(img_spacer('15px', '15px', 'background: '.escape($row['domain_setting_value']).'; margin-right: 4px; vertical-align: middle; border: 1px solid '.(color_adjust($row['domain_setting_value'], -0.18)).'; padding: -1px;'));
 				echo "<span style=\"font-family: 'Courier New'; line-height: 6pt;\">".escape($row['domain_setting_value'])."</span>\n";
@@ -336,6 +340,12 @@
 				echo "		".$text['option-username_format_'.$row['domain_setting_value']]."\n";
 			}
 			else if ($category == 'recordings' && $subcategory == 'storage_type' && $name == 'text') {
+				echo "		".$text['label-'.$row['domain_setting_value']]."\n";
+			}
+			else if ($category == 'destinations' && $subcategory == 'dialplan_mode' && $name == 'text') {
+				echo "		".$text['label-'.$row['domain_setting_value']]."\n";
+			}
+			else if ($category == 'destinations' && $subcategory == 'select_mode' && $name == 'text') {
 				echo "		".$text['label-'.$row['domain_setting_value']]."\n";
 			}
 			else {

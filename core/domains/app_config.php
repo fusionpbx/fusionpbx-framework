@@ -2,7 +2,7 @@
 
 	//application details
 		$apps[$x]['name'] = "Domains";
-		$apps[$x]['guid'] = "8b91605b-f6d2-42e6-a56d-5d1ded01bb44";
+		$apps[$x]['uuid'] = "8b91605b-f6d2-42e6-a56d-5d1ded01bb44";
 		$apps[$x]['category'] = "Core";
 		$apps[$x]['subcategory'] = "";
 		$apps[$x]['version'] = "1.0";
@@ -50,6 +50,16 @@
 		$apps[$x]['permissions'][$y]['name'] = "domain_select";
 		$apps[$x]['permissions'][$y]['groups'][] = "superadmin";
 		$y++;
+
+	//default settings
+		$y=0;
+		$apps[$x]['default_settings'][$y]['default_setting_uuid'] = "0bc44a93-b87c-414f-8584-f890dd06d28c";
+		$apps[$x]['default_settings'][$y]['default_setting_category'] = "domain";
+		$apps[$x]['default_settings'][$y]['default_setting_subcategory'] = "country_code";
+		$apps[$x]['default_settings'][$y]['default_setting_name'] = "numeric";
+		$apps[$x]['default_settings'][$y]['default_setting_value'] = "";
+		$apps[$x]['default_settings'][$y]['default_setting_enabled'] = "true";
+		$apps[$x]['default_settings'][$y]['default_setting_description'] = "";
 
 	//schema details
 		$y=0;

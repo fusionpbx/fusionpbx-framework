@@ -649,6 +649,12 @@ if (count($_POST) > 0 && strlen($_POST["persistformvar"]) == 0) {
 		echo "    	<option value='fixed' ".($user_setting_value == "fixed" ? "selected='selected'" : null).">".$text['option-fixed']."</option>\n";
 		echo "    </select>\n";
 	}
+	elseif ($user_setting_category == "theme" && $user_setting_subcategory == "menu_side_item_main_sub_close" && $user_setting_name == "text" ) {
+		echo "    <select class='formfld' id='user_setting_value' name='user_setting_value'>\n";
+		echo "    	<option value='automatic'>".$text['option-automatic']."</option>\n";
+		echo "    	<option value='manual' ".($user_setting_value == "manual" ? "selected='selected'" : null).">".$text['option-manual']."</option>\n";
+		echo "    </select>\n";
+	}
 	else if ($user_setting_category == "theme" && $user_setting_subcategory == "body_header_brand_type" && $user_setting_name == "text" ) {
 		echo "    <select class='formfld' id='user_setting_value' name='user_setting_value'>\n";
 		echo "    	<option value='image' ".(($user_setting_value == "image") ? "selected='selected'" : null).">".$text['label-image']."</option>\n";
@@ -662,6 +668,30 @@ if (count($_POST) > 0 && strlen($_POST["persistformvar"]) == 0) {
 		echo "    	<option value='any' ".($user_setting_value == 'any' ? "selected='selected'" : null).">".$text['option-username_format_any']."</option>\n";
 		echo "    	<option value='email' ".($user_setting_value == 'email' ? "selected='selected'" : null).">".$text['option-username_format_email']."</option>\n";
 		echo "    	<option value='no_email' ".($user_setting_value == 'no_email' ? "selected='selected'" : null).">".$text['option-username_format_no_email']."</option>\n";
+		echo "	</select>\n";
+	}
+	elseif ($user_setting_category == "destinations" && $user_setting_subcategory == "dialplan_details" && $user_setting_name == "boolean" ) {
+		echo "	<select class='formfld' id='user_setting_value' name='user_setting_value'>\n";
+		echo "    	<option value='true'>".$text['label-true']."</option>\n";
+		echo "    	<option value='false' ".(($user_setting_value == "false") ? "selected='selected'" : null).">".$text['label-false']."</option>\n";
+		echo "	</select>\n";
+	}
+	elseif ($user_setting_category == "destinations" && $user_setting_subcategory == "dialplan_mode" && $user_setting_name == "text" ) {
+		echo "	<select class='formfld' id='user_setting_value' name='user_setting_value'>\n";
+		echo "    	<option value='multiple'>".$text['label-multiple']."</option>\n";
+		echo "    	<option value='single' ".(($user_setting_value == "single") ? "selected='selected'" : null).">".$text['label-single']."</option>\n";
+		echo "	</select>\n";
+	}
+	elseif ($user_setting_category == "destinations" && $user_setting_subcategory == "select_mode" && $user_setting_name == "text" ) {
+		echo "	<select class='formfld' id='user_setting_value' name='user_setting_value'>\n";
+		echo "    	<option value='default'>".$text['label-default']."</option>\n";
+		echo "    	<option value='dynamic' ".(($user_setting_value == "dynamic") ? "selected='selected'" : null).">".$text['label-dynamic']."</option>\n";
+		echo "	</select>\n";
+	}
+	elseif ($user_setting_category == "destinations" && $user_setting_subcategory == "unique" && $user_setting_name == "boolean" ) {
+		echo "	<select class='formfld' id='user_setting_value' name='user_setting_value'>\n";
+		echo "    	<option value='true'>".$text['label-true']."</option>\n";
+		echo "    	<option value='false' ".(($user_setting_value == "false") ? "selected='selected'" : null).">".$text['label-false']."</option>\n";
 		echo "	</select>\n";
 	}
 	else {
@@ -736,7 +766,7 @@ if (count($_POST) > 0 && strlen($_POST["persistformvar"]) == 0) {
 	echo "	".$text['label-description']."\n";
 	echo "</td>\n";
 	echo "<td class='vtable' align='left'>\n";
-	echo "	<input class='formfld' type='text' name='user_setting_description' style='width: 80%; max-width: 600px; min-width: 167px;' maxlength='255' value=\"".escape($user_setting_description)."\">\n";
+	echo "	<textarea class='formfld' style='width: 185px; height: 80px;' name='user_setting_description'>".escape($user_setting_description)."</textarea>\n";
 	echo "<br />\n";
 	echo $text['description-description']."\n";
 	echo "</td>\n";

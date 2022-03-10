@@ -17,7 +17,7 @@
 
 	The Initial Developer of the Original Code is
 	Mark J Crane <markjcrane@fusionpbx.com>
-	Portions created by the Initial Developer are Copyright (C) 2019
+	Portions created by the Initial Developer are Copyright (C) 2019-2021
 	the Initial Developer. All Rights Reserved.
 
 	Contributor(s):
@@ -98,7 +98,7 @@ if (!class_exists('user_logs')) {
 				$database->app_name = 'authentication';
 				$database->app_uuid = 'a8a12918-69a4-4ece-a1ae-3932be0e41f1';
 				$database->uuid($user_log_uuid);
-				$database->save($array);
+				$database->save($array, false);
 				$message = $database->message;
 
 			//remove the temporary permission

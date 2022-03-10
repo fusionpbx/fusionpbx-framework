@@ -17,7 +17,7 @@
 
  The Initial Developer of the Original Code is
  Mark J Crane <markjcrane@fusionpbx.com>
- Portions created by the Initial Developer are Copyright (C) 2008-2020
+ Portions created by the Initial Developer are Copyright (C) 2008-2021
  the Initial Developer. All Rights Reserved.
 
  Contributor(s):
@@ -687,6 +687,12 @@ if (count($_POST) > 0 && strlen($_POST["persistformvar"]) == 0) {
 		echo "    	<option value='fixed' ".($row['domain_setting_value'] == "fixed" ? "selected='selected'" : null).">".$text['option-fixed']."</option>\n";
 		echo "    </select>\n";
 	}
+	elseif ($category == "theme" && $subcategory == "menu_side_item_main_sub_close" && $name == "text" ) {
+		echo "    <select class='formfld' id='domain_setting_value' name='domain_setting_value'>\n";
+		echo "    	<option value='automatic'>".$text['option-automatic']."</option>\n";
+		echo "    	<option value='manual' ".($domain_setting_value == "manual" ? "selected='selected'" : null).">".$text['option-manual']."</option>\n";
+		echo "    </select>\n";
+	}
 	elseif ($category == "theme" && $subcategory == "body_header_brand_type" && $name == "text" ) {
 		echo "    <select class='formfld' id='domain_setting_value' name='domain_setting_value'>\n";
 		echo "    	<option value='image' ".(($row['domain_setting_value'] == "image") ? "selected='selected'" : null).">".$text['label-image']."</option>\n";
@@ -820,7 +826,7 @@ if (count($_POST) > 0 && strlen($_POST["persistformvar"]) == 0) {
 	echo "	".$text['label-description']."\n";
 	echo "</td>\n";
 	echo "<td class='vtable' align='left'>\n";
-	echo "	<textarea class='formfld' type='text' name='domain_setting_description'>".escape($domain_setting_description)."</textarea>\n";
+	echo "	<textarea class='formfld' style='width: 185px; height: 80px;' name='domain_setting_description'>".escape($domain_setting_description)."</textarea>\n";
 	echo "<br />\n";
 	echo $text['description-description']."\n";
 	echo "</td>\n";
