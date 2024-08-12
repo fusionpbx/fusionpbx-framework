@@ -552,7 +552,7 @@
         "disabled",
         "handicap",
         "person",
-        "uer",
+        "user",
         "wheelchair",
         "wheelchair-alt"
       ]
@@ -650,7 +650,7 @@
         "little black book",
         "portfolio",
         "rolodex",
-        "uer",
+        "user",
         "username"
       ]
     },
@@ -732,7 +732,7 @@
         "postcard",
         "profile",
         "registration",
-        "uer",
+        "user",
         "username"
       ]
     },
@@ -4588,7 +4588,7 @@
         "insert",
         "targeted",
         "together",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -5914,7 +5914,7 @@
     "ligatures": [],
     "search": {
       "terms": [
-        "uer",
+        "user",
         "users-people"
       ]
     },
@@ -7670,7 +7670,7 @@
         "rest",
         "sleep",
         "travel",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -12476,7 +12476,7 @@
         "building",
         "city",
         "employee",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -16141,7 +16141,7 @@
         "learning",
         "professor",
         "school",
-        "uer",
+        "user",
         "whiteboard",
         "writing"
       ]
@@ -17738,7 +17738,7 @@
         "girl",
         "kid",
         "toddler",
-        "uer",
+        "user",
         "young",
         "youth"
       ]
@@ -17830,7 +17830,7 @@
         "girl",
         "kid",
         "toddler",
-        "uer",
+        "user",
         "young",
         "youth"
       ]
@@ -17876,7 +17876,7 @@
         "girl",
         "kid",
         "toddler",
-        "uer",
+        "user",
         "young",
         "youth"
       ]
@@ -17925,7 +17925,7 @@
         "kid",
         "kids",
         "together",
-        "uer",
+        "user",
         "young",
         "youth"
       ]
@@ -19979,7 +19979,7 @@
     "search": {
       "terms": [
         "employee",
-        "uer",
+        "user",
         "username",
         "users-people"
       ]
@@ -20480,7 +20480,7 @@
         "record",
         "roster",
         "staff",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -29243,7 +29243,7 @@
         "elevator",
         "hoist",
         "lift",
-        "uer",
+        "user",
         "users-people"
       ]
     },
@@ -31032,7 +31032,7 @@
         "frowning face",
         "rating",
         "sad",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -32820,7 +32820,7 @@
         "neutral",
         "neutral face",
         "rating",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -33219,7 +33219,7 @@
         "satisfied",
         "slightly smiling face",
         "smile",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -44572,7 +44572,7 @@
         "lungs",
         "respiratory",
         "sick",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -44628,7 +44628,7 @@
         "lungs",
         "respiratory",
         "sick",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -44685,7 +44685,7 @@
         "infection",
         "pandemic",
         "respirator",
-        "uer",
+        "user",
         "virus"
       ]
     },
@@ -44742,7 +44742,7 @@
         "infection",
         "pandemic",
         "sick",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -46389,7 +46389,7 @@
         "network",
         "patient",
         "primary care",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -46442,7 +46442,7 @@
       "terms": [
         "jacuzzi",
         "spa",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -47193,7 +47193,7 @@
         "home",
         "isolation",
         "quarantine",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -48080,7 +48080,7 @@
     "search": {
       "terms": [
         "house",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -48626,7 +48626,7 @@
         "identification",
         "license",
         "profile",
-        "uer",
+        "user",
         "username"
       ]
     },
@@ -48707,7 +48707,7 @@
         "issued",
         "profile",
         "registration",
-        "uer",
+        "user",
         "username"
       ]
     },
@@ -48781,7 +48781,7 @@
         "identification",
         "issued",
         "profile",
-        "uer",
+        "user",
         "username"
       ]
     },
@@ -48998,7 +48998,7 @@
         "photo",
         "picture",
         "selfie",
-        "uer",
+        "user",
         "username"
       ]
     },
@@ -54991,7 +54991,7 @@
     "search": {
       "terms": [
         "gender",
-        "uer",
+        "user",
         "violence"
       ]
     },
@@ -62227,7 +62227,7 @@
         "social distancing",
         "talk",
         "together",
-        "uer",
+        "user",
         "users-people"
       ]
     },
@@ -62280,7 +62280,7 @@
     "search": {
       "terms": [
         "together",
-        "uer",
+        "user",
         "users-people"
       ]
     },
@@ -62326,7 +62326,7 @@
         "group",
         "team",
         "together",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -62370,7 +62370,7 @@
         "group",
         "need",
         "together",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -62412,7 +62412,7 @@
       "terms": [
         "forced return",
         "together",
-        "uer",
+        "user",
         "yanking"
       ]
     },
@@ -62458,7 +62458,7 @@
         "looting",
         "robbery",
         "steal",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -62506,7 +62506,7 @@
         "safe",
         "shelter",
         "together",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -62763,7 +62763,7 @@
         "person standing",
         "stand",
         "standing",
-        "uer",
+        "user",
         "woman"
       ]
     },
@@ -62808,7 +62808,7 @@
         "indigenous",
         "insert",
         "native",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -62850,7 +62850,7 @@
       "terms": [
         "population",
         "rise",
-        "uer",
+        "user",
         "upgrade"
       ]
     },
@@ -62914,7 +62914,7 @@
         "pedal",
         "person biking",
         "summer",
-        "uer",
+        "user",
         "wheel"
       ]
     },
@@ -62965,7 +62965,7 @@
       "terms": [
         "changing room",
         "curtain",
-        "uer",
+        "user",
         "vote",
         "voting"
       ]
@@ -63014,7 +63014,7 @@
         "nutrition",
         "parent",
         "sustenance",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -63058,7 +63058,7 @@
         "accident",
         "crash",
         "explode",
-        "uer",
+        "user",
         "violence"
       ]
     },
@@ -63104,7 +63104,7 @@
         "elderly",
         "old",
         "staff",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -63150,7 +63150,7 @@
         "lesson",
         "presentation",
         "teacher",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -63195,7 +63195,7 @@
         "not affected",
         "ok",
         "okay",
-        "uer",
+        "user",
         "validate",
         "working"
       ]
@@ -63242,7 +63242,7 @@
         "failed",
         "lost",
         "missing",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -63284,7 +63284,7 @@
       "terms": [
         "delete",
         "remove",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -63327,7 +63327,7 @@
         "add",
         "follow",
         "found",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -63371,7 +63371,7 @@
         "lost",
         "missing",
         "request",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -63413,7 +63413,7 @@
       "terms": [
         "dead",
         "removed",
-        "uer",
+        "user",
         "uncheck"
       ]
     },
@@ -63472,7 +63472,7 @@
         "dig",
         "maintenance",
         "men at work",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -63526,7 +63526,7 @@
       "terms": [
         "allergy",
         "diagnosis",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -63581,7 +63581,7 @@
       "terms": [
         "man",
         "skirt",
-        "uer",
+        "user",
         "woman"
       ]
     },
@@ -63626,7 +63626,7 @@
         "accident",
         "crash",
         "explode",
-        "uer",
+        "user",
         "violence"
       ]
     },
@@ -63670,7 +63670,7 @@
         "drown",
         "emergency",
         "swim",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -63713,7 +63713,7 @@
         "accident",
         "fall",
         "trip",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -63759,7 +63759,7 @@
         "fall",
         "homicide",
         "murder",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -63803,7 +63803,7 @@
         "man",
         "restroom",
         "transgender",
-        "uer",
+        "user",
         "woman"
       ]
     },
@@ -63848,7 +63848,7 @@
         "scream",
         "shame",
         "shout",
-        "uer",
+        "user",
         "yell"
       ]
     },
@@ -63907,7 +63907,7 @@
         "mountain",
         "outdoors",
         "summer",
-        "uer",
+        "user",
         "walk"
       ]
     },
@@ -63951,7 +63951,7 @@
         "army",
         "customs",
         "guard",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -63995,7 +63995,7 @@
         "army",
         "military",
         "rifle",
-        "uer",
+        "user",
         "war"
       ]
     },
@@ -64039,7 +64039,7 @@
         "civilian",
         "coordination",
         "military",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -64097,7 +64097,7 @@
         "place of worship",
         "religion",
         "thank",
-        "uer",
+        "user",
         "worship"
       ]
     },
@@ -64145,7 +64145,7 @@
         "parent",
         "pregnant",
         "pregnant woman",
-        "uer",
+        "user",
         "woman"
       ]
     },
@@ -64189,7 +64189,7 @@
         "affected",
         "focus",
         "shine",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -64234,7 +64234,7 @@
         "gun",
         "military",
         "rifle",
-        "uer",
+        "user",
         "war"
       ]
     },
@@ -64297,7 +64297,7 @@
         "person running",
         "race",
         "running",
-        "uer",
+        "user",
         "workout"
       ]
     },
@@ -64344,7 +64344,7 @@
         "safe",
         "safety",
         "shelter",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -64400,7 +64400,7 @@
         "olympics",
         "rink",
         "skate",
-        "uer",
+        "user",
         "winter"
       ]
     },
@@ -64460,7 +64460,7 @@
         "ski",
         "skier",
         "snow",
-        "uer",
+        "user",
         "winter"
       ]
     },
@@ -64514,7 +64514,7 @@
       "terms": [
         "cross country",
         "olympics",
-        "uer",
+        "user",
         "winter"
       ]
     },
@@ -64574,7 +64574,7 @@
         "snow",
         "snowboard",
         "snowboarder",
-        "uer",
+        "user",
         "winter"
       ]
     },
@@ -64634,7 +64634,7 @@
         "pool",
         "sea",
         "swim",
-        "uer",
+        "user",
         "water"
       ]
     },
@@ -64681,7 +64681,7 @@
         "leave",
         "robbery",
         "steal",
-        "uer",
+        "user",
         "window"
       ]
     },
@@ -64743,7 +64743,7 @@
         "hike",
         "move",
         "person walking",
-        "uer",
+        "user",
         "walk",
         "walking",
         "workout"
@@ -64789,7 +64789,7 @@
         "follow",
         "population return",
         "return",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -64834,7 +64834,7 @@
         "internally displaced",
         "leave",
         "refugee",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -64877,7 +64877,7 @@
         "exit",
         "follow",
         "refugee",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -64924,7 +64924,7 @@
         "deployment",
         "follow",
         "rolling",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -64980,7 +64980,7 @@
         "blind",
         "cane",
         "follow",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -67234,7 +67234,7 @@
         "shit",
         "smile",
         "turd",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -69821,7 +69821,7 @@
       "terms": [
         "bathroom",
         "toilet",
-        "uer",
+        "user",
         "water closet",
         "wc"
       ]
@@ -75269,7 +75269,7 @@
         "monster",
         "skeleton",
         "skull",
-        "uer",
+        "user",
         "x-ray",
         "yorick"
       ]
@@ -78694,7 +78694,7 @@
       "terms": [
         "captivity",
         "confined",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -81388,7 +81388,7 @@
         "location",
         "map",
         "navigation",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -89048,7 +89048,7 @@
     "ligatures": [],
     "search": {
       "terms": [
-        "uer",
+        "user",
         "users-people"
       ]
     },
@@ -89757,7 +89757,7 @@
         "person",
         "profile",
         "silhouette",
-        "uer",
+        "user",
         "unspecified gender",
         "username",
         "users-people"
@@ -89830,7 +89830,7 @@
         "nasa",
         "space",
         "suit",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -89880,7 +89880,7 @@
       "terms": [
         "employee",
         "enable",
-        "uer",
+        "user",
         "users-people",
         "validate",
         "working"
@@ -89932,7 +89932,7 @@
     "search": {
       "terms": [
         "employee",
-        "uer",
+        "user",
         "users-people"
       ]
     },
@@ -89999,7 +89999,7 @@
         "physician",
         "profile",
         "surgeon",
-        "uer",
+        "user",
         "worker"
       ]
     },
@@ -90053,7 +90053,7 @@
       "terms": [
         "employee",
         "together",
-        "uer",
+        "user",
         "users-people"
       ]
     },
@@ -90102,7 +90102,7 @@
     "ligatures": [],
     "search": {
       "terms": [
-        "uer",
+        "user",
         "users-people"
       ]
     },
@@ -90163,7 +90163,7 @@
         "employee",
         "silhouette",
         "together",
-        "uer",
+        "user",
         "users-people"
       ]
     },
@@ -90213,7 +90213,7 @@
     "search": {
       "terms": [
         "employee",
-        "uer",
+        "user",
         "users-people"
       ]
     },
@@ -90268,7 +90268,7 @@
     "search": {
       "terms": [
         "employee",
-        "uer",
+        "user",
         "users-people"
       ]
     },
@@ -90323,7 +90323,7 @@
         "disabled",
         "disconnect",
         "employee",
-        "uer",
+        "user",
         "users-people"
       ]
     },
@@ -90376,7 +90376,7 @@
         "employee",
         "padlock",
         "privacy",
-        "uer",
+        "user",
         "users-people"
       ]
     },
@@ -90429,7 +90429,7 @@
         "employee",
         "negative",
         "remove",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -90489,7 +90489,7 @@
         "ninja",
         "sneaky",
         "stealth",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -90547,7 +90547,7 @@
         "physician",
         "practitioner",
         "surgeon",
-        "uer",
+        "user",
         "worker"
       ]
     },
@@ -90601,7 +90601,7 @@
       "terms": [
         "employee",
         "modify",
-        "uer",
+        "user",
         "users-people"
       ]
     },
@@ -90661,7 +90661,7 @@
         "sign up",
         "signup",
         "team",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -90719,7 +90719,7 @@
         "detective",
         "sleuth",
         "spy",
-        "uer",
+        "user",
         "users-people"
       ]
     },
@@ -90771,7 +90771,7 @@
         "employee",
         "protect",
         "safety",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -90826,7 +90826,7 @@
         "disconnect",
         "employee",
         "remove",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -90875,7 +90875,7 @@
     "search": {
       "terms": [
         "employee",
-        "uer",
+        "user",
         "users-people"
       ]
     },
@@ -90935,7 +90935,7 @@
         "portfolio",
         "professional",
         "suit",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -90993,7 +90993,7 @@
         "delete",
         "employee",
         "remove",
-        "uer",
+        "user",
         "uncheck",
         "x"
       ]
@@ -91048,7 +91048,7 @@
       "terms": [
         "employee",
         "together",
-        "uer",
+        "user",
         "users-people"
       ]
     },
@@ -91095,7 +91095,7 @@
         "group",
         "people",
         "together",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -91147,7 +91147,7 @@
     "search": {
       "terms": [
         "employee",
-        "uer",
+        "user",
         "users-people"
       ]
     },
@@ -91194,7 +91194,7 @@
         "need",
         "people",
         "together",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -91240,7 +91240,7 @@
         "focused",
         "group",
         "people",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -91286,7 +91286,7 @@
         "group",
         "people",
         "reached",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -91339,7 +91339,7 @@
         "disconnect",
         "employee",
         "together",
-        "uer",
+        "user",
         "users-people"
       ]
     },
@@ -91385,7 +91385,7 @@
         "group",
         "people",
         "targeted",
-        "uer"
+        "user"
       ]
     },
     "styles": [
@@ -94549,7 +94549,7 @@
     "search": {
       "terms": [
         "disabled",
-        "uer",
+        "user",
         "users-people"
       ]
     },
@@ -94601,7 +94601,7 @@
         "handicap",
         "impairment",
         "physical",
-        "uer",
+        "user",
         "wheelchair symbol"
       ]
     },
