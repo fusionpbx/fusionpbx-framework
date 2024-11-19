@@ -95,12 +95,12 @@
 	}
 
 //make sure the /var/run/fusionpbx directory exists
-    if (!file_exists('/var/run/fusionpbx')) {
-        $result = mkdir('/var/run/fusionpbx', 0777, true);
-        if (!$result) {
-            die('Failed to create /var/run/fusionpbx');
-        }
-    }
+	if (!file_exists('/var/run/fusionpbx')) {
+		$result = mkdir('/var/run/fusionpbx', 0777, true);
+		if (!$result) {
+			die('Failed to create /var/run/fusionpbx');
+		}
+	}
 
 //create the process id file if the process doesn't exist
 	if (!$pid_exists) {
@@ -152,7 +152,7 @@
 		//process the messages
 		if (is_array($email_queue) && @sizeof($email_queue) != 0) {
 			foreach($email_queue as $row) {
-				$command = exec('which php')." ".$_SERVER['DOCUMENT_ROOT']."/app/email_queue/resources/jobs/email_send.php ";
+				$command = exec('which php')." ".$_SERVER['DOCUMENT_ROOT']."/core/email_queue/resources/jobs/email_send.php ";
 				$command .= "'action=send&email_queue_uuid=".$row["email_queue_uuid"]."&hostname=".$hostname."'";
 				if (isset($debug)) {
 					//run process inline to see debug info
