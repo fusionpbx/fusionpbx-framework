@@ -64,7 +64,7 @@ if ($domains_processed == 1) {
 		$sql .= "		AND (u.user_uuid = ug.user_uuid) \n"; 
 		$sql .= "		ORDER BY group_level DESC \n";
 		$sql .= "		LIMIT 1 \n";
-		$sql .= "	) AS group_level \n";{
+		$sql .= "	) AS group_level \n";
 		$sql .= "	from v_contacts as c \n";
 		$sql .= "	right join v_users u on u.contact_uuid = c.contact_uuid \n";
 		$sql .= "	inner join v_domains as d on d.domain_uuid = u.domain_uuid \n";
