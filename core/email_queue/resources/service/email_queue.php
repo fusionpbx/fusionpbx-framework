@@ -51,7 +51,7 @@
 		if (file_exists($file)) {
 			$pid = file_get_contents($file);
 			if (function_exists('posix_getsid')) {
-				if (posix_getsid($pid) === false) { 
+				if (posix_getsid($pid) === false) {
 					//process is not running
 					$exists = false;
 				}
@@ -141,7 +141,7 @@
 		$sql = "select * from v_email_queue ";
 		$sql .= "where (email_status = 'waiting' or email_status = 'trying') ";
 		$sql .= "and hostname = :hostname ";
-		$sql .= "order by domain_uuid asc ";
+		$sql .= "order by domain_uuid, email_date desc ";
 		$sql .= "limit :limit ";
 		$parameters['hostname'] = $hostname;
 		$parameters['limit'] = $email_queue_limit;
@@ -162,7 +162,7 @@
 				}
 				else {
 					//starts process rapidly doesn't wait for previous process to finish (used for production)
-					$handle = popen($command." > /dev/null &", 'r'); 
+					$handle = popen($command." > /dev/null &", 'r');
 					echo "'$handle'; " . gettype($handle) . "\n";
 					$read = fread($handle, 2096);
 					echo $read;
