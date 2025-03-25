@@ -29,7 +29,10 @@
 //additional includes
 	require_once "resources/check_auth.php";
 
+//get the settings
+	$settings = new settings;
+
 //redirect to the dashboard
-	header("Location: ".PROJECT_PATH."/core/dashboard/");
+	header("Location: ".$settings->get('login', 'destination', PROJECT_PATH.'/core/dashboard/'));
 
 ?>
