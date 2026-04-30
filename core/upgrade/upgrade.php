@@ -470,25 +470,31 @@
 		if (empty($argv[2]) || $argv[2] == 'update') {
 			//send a message to the console
 			echo "[ Update ] Update default services\n";
+			//echo ($text['description-upgrade_services'] ?? "")."\n";
 
 			//add or update all the services
-			upgrade_services($text, $settings);
+			$object = new services();
+			$object->upgrade('all');
 		}
 
 		//send a message to the console
 		if (empty($argv[2]) || $argv[2] == 'stop') {
 			echo "[ Update ] Stop services\n";
+			//echo ($text['description-stop_services'] ?? "")."\n";
 
 			//stop all the services
-			stop_services($text, $settings);
+			$object = new services();
+			$object->stop('all');
 		}
 
 		//send a message to the console
 		if (empty($argv[2]) || $argv[2] == 'restart') {
 			echo "[ Update ] Restart services\n";
+			//echo ($text['description-restart_services'] ?? "")."\n";
 
 			//restart all the services
-			restart_services($text, $settings);
+			$object = new services();
+			$object->restart('all');
 		}
 
 	}
