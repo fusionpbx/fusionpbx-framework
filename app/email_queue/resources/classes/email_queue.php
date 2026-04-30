@@ -46,6 +46,7 @@ class email_queue {
 	 */
 	private $name;
 	private $table;
+	private $category;
 	private $toggle_field;
 	private $toggle_values;
 	private $location;
@@ -70,6 +71,7 @@ class email_queue {
 		//assign the variables
 		$this->name          = 'email_queue';
 		$this->table         = 'email_queue';
+		$this->category      = 'queue';
 		$this->toggle_field  = '';
 		$this->toggle_values = ['true', 'false'];
 		$this->location      = 'email_queue.php';
