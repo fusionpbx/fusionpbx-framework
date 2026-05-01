@@ -191,6 +191,10 @@
 		echo "\n";
 	}
 
+//add missing services
+	$service = new services();
+	$service->add_missing();
+
 //show the help menu
 	if ($upgrade_type == 'help' or $upgrade_type == '-h' or $upgrade_type == '--help') {
 
