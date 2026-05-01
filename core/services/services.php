@@ -50,7 +50,15 @@
 
 // process the http post data by action
 	if (!empty($action) && !empty($services) && is_array($services) && @sizeof($services) != 0) {
+
+		// send the array to the database class
 		switch ($action) {
+			case 'reload':
+				if (permission_exists('service_edit')) {
+					$obj = new services;
+					$obj->reload($services);
+				}
+				break;
 			case 'toggle':
 				if (permission_exists('service_edit')) {
 					$obj = new services;
@@ -158,6 +166,9 @@
 	echo "	<div class='heading'><b>".$text['title-services']."</b><div class='count'>".$num_rows."</div></div>\n";
 	echo "	<div class='actions'>\n";
 	if (permission_exists('service_edit') && $services) {
+		echo button::create(['type'=>'button','label'=>$text['button-reload'],'icon'=>$_SESSION['theme']['button_icon_reload'],'id'=>'btn_reload','name'=>'btn_reload','style'=>'display:none;','onclick'=>"modal_open('modal-reload','btn_reload');"]);
+	}
+	if (permission_exists('service_edit') && $services) {
 		echo button::create(['type'=>'button','label'=>$text['button-toggle'],'icon'=>$_SESSION['theme']['button_icon_toggle'],'id'=>'btn_toggle','name'=>'btn_toggle','style'=>'display:none;','onclick'=>"modal_open('modal-toggle','btn_toggle');"]);
 	}
 	if (permission_exists('service_delete') && $services) {
@@ -176,6 +187,9 @@
 
 	if (permission_exists('service_add') && $services) {
 		echo modal::create(['id'=>'modal-copy','type'=>'copy','actions'=>button::create(['type'=>'button','label'=>$text['button-continue'],'icon'=>'check','id'=>'btn_copy','style'=>'float: right; margin-left: 15px;','collapse'=>'never','onclick'=>"modal_close(); list_action_set('copy'); list_form_submit('form_list');"])]);
+	}
+	if (permission_exists('service_edit') && $services) {
+		echo modal::create(['id'=>'modal-reload','type'=>'reload','actions'=>button::create(['type'=>'button','label'=>$text['button-continue'],'icon'=>'check','id'=>'btn_reload','style'=>'float: right; margin-left: 15px;','collapse'=>'never','onclick'=>"modal_close(); list_action_set('reload'); list_form_submit('form_list');"])]);
 	}
 	if (permission_exists('service_edit') && $services) {
 		echo modal::create(['id'=>'modal-toggle','type'=>'toggle','actions'=>button::create(['type'=>'button','label'=>$text['button-continue'],'icon'=>'check','id'=>'btn_toggle','style'=>'float: right; margin-left: 15px;','collapse'=>'never','onclick'=>"modal_close(); list_action_set('toggle'); list_form_submit('form_list');"])]);

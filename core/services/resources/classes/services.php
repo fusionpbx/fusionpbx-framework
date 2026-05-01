@@ -180,8 +180,7 @@ class services {
 			if (is_array($uuids) && @sizeof($uuids) != 0) {
 				$sql = "select ".$this->name."_uuid as uuid, ".$this->toggle_field." as toggle from v_".$this->table." ";
 				$sql .= "where ".$this->name."_uuid in (".implode(', ', $uuids).") ";
-				$database = new database;
-				$rows = $database->select($sql, $parameters, 'all');
+				$rows = $this->database->select($sql, $parameters, 'all');
 				if (is_array($rows) && @sizeof($rows) != 0) {
 					foreach ($rows as $row) {
 						$states[$row['uuid']] = $row['toggle'];
@@ -211,6 +210,71 @@ class services {
 				message::add($text['message-toggle']);
 			}
 			unset($records, $states);
+		}
+	}
+
+	/**
+	 * Reload the state of a service without restarting it
+	 *
+	 * @param array $records  An array of services to reload, where each ID is an associative array
+	 *                        containing 'uuid' and 'checked' keys. The 'checked' value indicates
+	 *                        whether the corresponding checkbox was checked to reload the service.
+	 *
+	 * @return void No return value;
+	 */
+	public function reload($records) {
+		// Permission not found
+		if (!permission_exists($this->name.'_edit')) {
+			return;
+		}
+
+		// Add multi-lingual support
+		$language = new text;
+		$text = $language->get();
+
+		// Validate the token
+		$token = new token;
+		if (!$token->validate($_SERVER['PHP_SELF'])) {
+			message::add($text['message-invalid_token'],'negative');
+			header('Location: '.$this->location);
+			exit;
+		}
+
+		// reloaad the checked services
+		if (is_array($records) && @sizeof($records) != 0) {
+			// Get current reload state
+			foreach($records as $record) {
+				if ($record['checked'] == 'true' && is_uuid($record['uuid'])) {
+					$uuids[] = "'".$record['uuid']."'";
+				}
+			}
+			// Reload the selected services
+			if (is_array($uuids) && @sizeof($uuids) != 0) {
+				$sql = "select service_name as name from v_".$this->table." ";
+				$sql .= "where ".$this->name."_uuid in (".implode(', ', $uuids).") ";
+				$rows = $this->database->select($sql, $parameters, 'all');
+				if (is_array($rows) && @sizeof($rows) != 0) {
+					foreach ($rows as $row) {
+						$service_name = $row['name'];
+						$service_class_name = $row['name'].'_service';
+						if (class_exists($service_class_name)) {
+							if (method_exists($service_class_name, 'send_reload')) {
+								// Reload the service
+								$service_class_name::send_reload();
+								
+								// Add the service to an array
+								$services[] = $service_name;
+							}
+						}
+					}
+				}
+
+				// The list of services that were reloaded
+				$service_list = implode("<br />", $services);
+
+				// Set the message
+				message::add($text['message-reload']."<br />".$service_list);
+			}
 		}
 	}
 
@@ -254,7 +318,7 @@ class services {
 						$services[$i]['etime'] = $service_status['etime'];
 					}
 
-					// Increment 
+					// Increment
 					$i++;
 				}
 			}
@@ -296,7 +360,7 @@ class services {
 						$services[$i]['etime'] = $service_status['etime'];
 					}
 
-					// Increment 
+					// Increment
 					$i++;
 				}
 			}
@@ -354,7 +418,7 @@ class services {
 		foreach ($service_array as $service) {
 			// Sanitize the service name
 			$service_name = preg_replace('/[^a-zA-Z0-9_-]/', '', $service['name']);
-			
+
 			// Built the array to save to the database
 			if (!is_array($service_array) || !in_array($service_name, $service_names)) {
 				// Get the category
