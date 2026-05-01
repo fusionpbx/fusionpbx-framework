@@ -1467,6 +1467,7 @@
 			btn_toggle = document.getElementById("btn_toggle");
 			btn_delete = document.getElementById("btn_delete");
 			btn_download = document.getElementById("btn_download");
+			btn_reload = document.getElementById("btn_reload");
 			btn_transcribe = document.getElementById("btn_transcribe");
 			any_revealed = document.getElementsByClassName('revealed');
 			if (checked == true) {
@@ -1474,6 +1475,7 @@
 				if (btn_toggle) { btn_toggle.style.display = "inline"; }
 				if (btn_delete) { btn_delete.style.display = "inline"; }
 				if (btn_download) { btn_download.style.display = "inline"; }
+				if (btn_reload) { btn_reload.style.display = "inline"; }
 				if (btn_transcribe) { btn_transcribe.style.display = "inline"; }
 				if (any_revealed) { [...any_revealed].map(btn => btn.style.display = "inline"); }
 			}
