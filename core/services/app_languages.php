@@ -1,6 +1,5 @@
 <?php
 
-
 $text['title-services']['en-us'] = 'Services';
 $text['title-services']['en-gb'] = 'Services';
 $text['title-services']['ar-eg'] = 'خدمات';
@@ -131,31 +130,31 @@ $text['description-service_name']['zh-cn'] = '输入服务名称。';
 $text['description-service_name']['ja-jp'] = 'サービス名を入力してください。';
 $text['description-service_name']['ko-kr'] = '서비스 이름을 입력하세요.';
 
-$text['label-service_status']['en-us'] = 'Status';
-$text['label-service_status']['en-gb'] = 'Status';
-$text['label-service_status']['ar-eg'] = 'حالة';
-$text['label-service_status']['de-at'] = 'Status';
-$text['label-service_status']['de-ch'] = 'Status';
-$text['label-service_status']['de-de'] = 'Status';
-$text['label-service_status']['el-gr'] = 'Κατάσταση';
-$text['label-service_status']['es-cl'] = 'Estado';
-$text['label-service_status']['es-mx'] = 'Estado';
-$text['label-service_status']['fr-ca'] = 'Statut';
-$text['label-service_status']['fr-fr'] = 'Statut';
-$text['label-service_status']['he-il'] = 'סטטוס';
-$text['label-service_status']['it-it'] = 'Stato';
-$text['label-service_status']['nl-nl'] = 'Status';
-$text['label-service_status']['pl-pl'] = 'Status';
-$text['label-service_status']['pt-br'] = 'Status';
-$text['label-service_status']['pt-pt'] = 'Estado';
-$text['label-service_status']['ro-ro'] = 'Stare';
-$text['label-service_status']['ru-ru'] = 'Статус';
-$text['label-service_status']['sv-se'] = 'Status';
-$text['label-service_status']['uk-ua'] = 'Статус';
-$text['label-service_status']['tr-tr'] = 'Durum';
-$text['label-service_status']['zh-cn'] = '状态';
-$text['label-service_status']['ja-jp'] = 'ステータス';
-$text['label-service_status']['ko-kr'] = '상태';
+$text['label-service_status']['en-us'] = 'Active';
+$text['label-service_status']['en-gb'] = 'Active';
+$text['label-service_status']['ar-eg'] = 'نشيط';
+$text['label-service_status']['de-at'] = 'Aktiv';
+$text['label-service_status']['de-ch'] = 'Aktiv';
+$text['label-service_status']['de-de'] = 'Aktiv';
+$text['label-service_status']['el-gr'] = 'Ενεργός';
+$text['label-service_status']['es-cl'] = 'Activo';
+$text['label-service_status']['es-mx'] = 'Activo';
+$text['label-service_status']['fr-ca'] = 'Actif';
+$text['label-service_status']['fr-fr'] = 'Actif';
+$text['label-service_status']['he-il'] = 'פעיל';
+$text['label-service_status']['it-it'] = 'Attivo';
+$text['label-service_status']['nl-nl'] = 'Actief';
+$text['label-service_status']['pl-pl'] = 'Aktywny';
+$text['label-service_status']['pt-br'] = 'Ativo';
+$text['label-service_status']['pt-pt'] = 'Ativo';
+$text['label-service_status']['ro-ro'] = 'Activ';
+$text['label-service_status']['ru-ru'] = 'Активный';
+$text['label-service_status']['sv-se'] = 'Aktiv';
+$text['label-service_status']['uk-ua'] = 'Активний';
+$text['label-service_status']['tr-tr'] = 'Aktif';
+$text['label-service_status']['zh-cn'] = '活跃';
+$text['label-service_status']['ja-jp'] = 'アクティブ';
+$text['label-service_status']['ko-kr'] = '활성화';
 
 $text['description-service_status']['en-us'] = 'The current status of the service.';
 $text['description-service_status']['en-gb'] = 'The current status of the service.';
