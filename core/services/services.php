@@ -237,6 +237,13 @@
 	if (!empty($services) && is_array($services) && @sizeof($services) != 0) {
 		$x = 0;
 		foreach ($services as $row) {
+			$service_status = ($row['service_status'] == 'true')
+				? "<span style='background-color: #28a745; color: white; padding: 2px 8px; border-radius: 10px;'>".$text['label-yes']."</span>"
+				: "<span style='background-color: #dc3545; color: white; padding: 2px 8px; border-radius: 10px;'>".$text['label-no']."</span>";
+			$etime = isset($row['service_etime']) ? $service_object->format_etime($row['service_etime']) : '-';
+			$pid = $row['service_pid'] ?? '';
+			$tooltip_attr = $pid ? "title='PID: $pid'" : '';
+
 			if (permission_exists('service_edit')) {
 				$list_row_url = "service_edit.php?id=".urlencode($row['service_uuid']);
 			}
@@ -255,9 +262,9 @@
 				echo "	".escape($row['service_name']);
 			}
 			echo "	</td>\n";
-			echo "	<td>".escape($row['service_status'])."</td>\n";
+			echo "	<td $tooltip_attr>".$service_status."</td>\n";
 			echo "	<td>".escape($row['service_category'])."</td>\n";
-			echo "	<td class='description overflow hide-sm-dn'>".escape($row['service_etime'])."</td>\n";
+			echo "	<td class='description overflow hide-sm-dn'>".escape($etime)."</td>\n";
 			if (permission_exists('service_edit')) {
 				echo "	<td class='no-link center'>\n";
 				echo "		<input type='hidden' name='number_translations[$x][service_enabled]' value='".escape($row['service_enabled'])."' />\n";
