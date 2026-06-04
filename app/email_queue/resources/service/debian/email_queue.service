@@ -1,10 +1,11 @@
 ; Author: Mark J Crane <markjcrane@fusionpbx.com>
-; cp /var/www/fusionpbx/app/system/resources/service/debian.service /etc/systemd/system/system_status.service
+; cp /var/www/fusionpbx/app/email_queue/resources/service/debian/email_queue.service /etc/systemd/system/email_queue.service
 ; systemctl daemon-reload
-; systemctl enable --now system_status
+; systemctl enable email_queue
+; systemctl start email_queue
 
 [Unit]
-Description=FusionPBX System Dashboard Information Service
+Description=FusionPBX Email Queue
 Wants=network-online.target
 Requires=network.target local-fs.target
 ;Requires=network.target local-fs.target postgresql.service
@@ -14,7 +15,7 @@ StartLimitIntervalSec=0
 
 [Service]
 WorkingDirectory=/var/www/fusionpbx
-ExecStart=/usr/bin/php /var/www/fusionpbx/app/system/resources/service/system_status.php
+ExecStart=/usr/bin/php /var/www/fusionpbx/app/email_queue/resources/service/email_queue.php
 RuntimeDirectory=fusionpbx
 RuntimeDirectoryMode=0755
 RuntimeDirectoryPreserve=yes
