@@ -7,15 +7,22 @@ if ($domains_processed == 1) {
 		unset($array);
 	}
 
+	//set the widget label text color to empty to support theme and setting defaults
+	$sql = "update v_dashboard_widgets ";
+	$sql .= "set widget_label_text_color = '' ";
+	$sql .= "where widget_label_text_color = '#444444';";
+	$database->execute($sql, null);
+	unset($sql);
+
 	//get the new dashboard widgets
 	$sql = "select * from v_dashboard_widgets ";
 	$new_table = $database->select($sql, null, 'all');
-	unset($sql, $parameters);
+	unset($sql);
 
 	//get the old dashboard
 	$sql = "select * from v_dashboard ";
 	$old_table = $database->select($sql, null, 'all');
-	unset($sql, $parameters);
+	unset($sql);
 
 	//if the new table is empty then use the old table to populate the new table
 	if (empty($new_table) && !empty($old_table)) {
