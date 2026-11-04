@@ -144,9 +144,10 @@
 
 		// Write the config file
 		$file_handle = fopen($config_file,"w");
-		if (!$file_handle){ return; }
+		if (!$file_handle){ echo "Failed to write the config file\n"; exit; }
 		fwrite($file_handle, $conf);
 		fclose($file_handle);
+		echo "Created " . rtrim($config_file, '/\\') . " from " . rtrim($config_path, '/\\') . DIRECTORY_SEPARATOR . "config.php\n";
 	}
 
 // Check the permission
@@ -628,6 +629,7 @@ function update_php_fpm(settings $settings) {
 		$read_write_paths[] = '/var/lib/freeswitch';
 		$read_write_paths[] = $settings->get('cache', 'location', '/var/cache/fusionpbx');
 		$read_write_paths[] = '/usr/share/fusionpbx';
+		$read_write_paths[] = '/etc/fusionpbx'; // the install wizard writes config.conf here (password recovery)
 
 		// Build the line to add to the service file
 		$line_to_insert = "ReadWritePaths=";
